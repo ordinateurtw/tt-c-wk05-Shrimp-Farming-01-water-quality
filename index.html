@@ -249,6 +249,10 @@
     @media (max-width: 920px) { .history-grid { grid-template-columns: 1fr; } }
     @media (max-width: 570px) { .history-top { align-items: flex-start; } .history-top h2 { font-size: 20px; } .history-card { padding: 15px; } .history-button { padding: 9px 11px; font-size: 12px; } .history-button--danger { margin-left: 0; } .history-toolbar { gap: 7px; } .chart-shell { min-height: 220px; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+    /* v0.4 Daily Operations */
+    .daily-section{margin:26px 0 36px;scroll-margin-top:24px}.daily-title{font-size:clamp(24px,3vw,34px);margin:0 0 8px;color:#102b3f}.daily-lead{color:#50697d;margin:0 0 16px}.daily-links{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.daily-links a{padding:10px 16px;border-radius:999px;text-decoration:none;background:#e3f4f3;color:#106c68;font-weight:750}.daily-card{background:white;border:1px solid #d7e4ed;border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(8,40,60,.04)}.daily-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px}.daily-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}.daily-toolbar input,.daily-toolbar select,.daily-card input,.daily-card select{font:inherit;border:1px solid #bdcfdc;border-radius:9px;padding:9px;max-width:100%;background:white;color:#102b3f}.daily-btn{border:1px solid #a6c6ce;border-radius:10px;padding:10px 15px;background:#eff8f9;color:#0d4c5a;cursor:pointer;font-weight:700}.daily-btn.primary{background:#007e80;color:white}.daily-btn:disabled{opacity:.48;cursor:not-allowed}.daily-progress-track{height:10px;background:#dce8ed;border-radius:10px;overflow:hidden}.daily-progress-fill{height:100%;width:0;background:#159b86}.daily-table-wrap{overflow-x:auto}.daily-table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}.daily-table th,.daily-table td{padding:11px 9px;text-align:left;border-bottom:1px solid #e2ebf0}.daily-table th{color:#547080;background:#f5f9fa}.daily-table input[type=checkbox]{width:20px;height:20px;accent-color:#008b7e}.daily-done{color:#278274}.daily-note{font-size:13px;color:#547080;line-height:1.7}.daily-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.daily-field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700}.daily-field input{width:100%}.daily-status{font-weight:800;color:#13546b}.daily-badge{display:inline-block;border-radius:99px;padding:4px 9px;background:#e7f1f5;color:#325d70;font-size:12px}.daily-badge.warning{background:#fff2cf;color:#846000}.daily-badge.danger{background:#fbe2e2;color:#a5252b}.daily-badge.normal{background:#dff4e9;color:#15714e}.daily-muted{opacity:.65}.daily-layout-note{background:#ebf6f7;padding:12px 16px;border-radius:12px;margin-top:16px}.daily-card h3{margin:0 0 12px}.daily-form-grid select{width:100%} .daily-mini{color:#567184;font-size:13px}.daily-section :focus-visible{outline:3px solid #04a7a1;outline-offset:2px}
+    @media(max-width:760px){.daily-grid{grid-template-columns:1fr}.daily-form-grid{grid-template-columns:1fr}.daily-card{padding:15px}.daily-toolbar{align-items:stretch}.daily-title{font-size:24px}}
   </style>
 </head>
 <body>
@@ -260,12 +264,43 @@
         </div>
         <div><strong>智慧白蝦水質評估</strong><small>SHRIMP QUALITY LAB</small></div>
       </div>
-      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DEMO v0.2</span></div>
+      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.4</span></div>
     </div>
   </header>
 
   <main class="shell">
-    <section class="hero" aria-labelledby="hero-title">
+    <nav class="daily-links" aria-label="主要區塊"><a href="#daily-operations">今日作業</a><a href="#pond-measurement">B1／M1 量測</a><a href="#legacy-quality">四指標水質評估</a><a href="#daily-archives">歷史與匯出</a></nav>
+
+
+    <section id="daily-operations" class="daily-section" aria-labelledby="daily-title">
+      <h2 id="daily-title" class="daily-title">每日養殖場作業管理 <span class="daily-badge">v0.4</span></h2>
+      <p class="daily-lead">每日 18 項獨立工作｜B1、M1 白蝦池｜4 隻小狗｜海水 06:00 關閉、17:30 開啟。完成狀態按日期個別保存。</p>
+      <div class="daily-card">
+        <div class="daily-toolbar"><label for="routine-date"><strong>作業日期</strong></label><input type="date" id="routine-date"><button type="button" class="daily-btn" id="routine-today">返回今天</button><button type="button" class="daily-btn" id="routine-export">匯出作業 CSV</button></div>
+        <p id="routine-summary" class="daily-status" role="status">載入中……</p><div class="daily-progress-track" role="progressbar" id="routine-progress" aria-label="每日完成率" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0"><div id="routine-progress-fill" class="daily-progress-fill"></div></div>
+        <div class="daily-toolbar"><label for="routine-filter">分類</label><select id="routine-filter"><option value="all">全部 A／B／C</option><option value="A">A 白蝦</option><option value="B">B 小狗</option><option value="C">C 海水</option></select></div>
+        <div class="daily-table-wrap"><table class="daily-table"><thead><tr><th>時間</th><th>類別</th><th>工作</th><th>池別／對象</th><th>完成</th></tr></thead><tbody id="routine-body"></tbody></table></div>
+        <p class="daily-note">06:30、17:00 多項工作分別勾選。勾選代表作業已執行，不等同水質已正常。紀錄儲存在此瀏覽器；跨裝置不會自動同步。</p>
+      </div>
+      <div class="daily-grid">
+        <section class="daily-card" id="pond-measurement" aria-labelledby="measure-title"><h3 id="measure-title">B1／M1 定時水質量測</h3><p class="daily-note">排程：06:30 水溫＋pH；11:00 僅水溫；16:00 水溫＋pH。沒有量測的項目顯示「未量測」，不以四項都正常作結論。</p>
+          <form id="measure-form"><div class="daily-form-grid">
+            <label class="daily-field">池別<select id="measure-pond" required><option value="B1">B1 白蝦池</option><option value="M1">M1 白蝦池</option></select></label>
+            <label class="daily-field">量測時段<select id="measure-slot" required><option value="06:30">06:30（水溫＋pH）</option><option value="11:00">11:00（僅水溫）</option><option value="16:00">16:00（水溫＋pH）</option></select></label>
+            <label class="daily-field">水溫（°C）<input id="measure-temp" type="number" min="15" max="40" step="0.1" placeholder="請輸入實測值" required></label>
+            <label class="daily-field" id="measure-ph-wrap">pH <input id="measure-ph" type="number" min="5" max="10" step="0.1" placeholder="請輸入實測值" required></label>
+          </div><div class="daily-toolbar"><button class="daily-btn primary" type="submit">儲存本次量測</button><span id="measure-message" class="daily-mini" role="status" aria-live="polite"></span></div></form>
+          <p class="daily-note">同一天、同池、同時段再次儲存會更新該筆紀錄，避免意外重複。實測時間與排程時間可能不同，本版另記錄儲存時間。</p>
+        </section>
+        <section class="daily-card" aria-labelledby="measurements-list-title"><h3 id="measurements-list-title">所選日期水質紀錄</h3><div id="measurements-list" class="daily-mini">尚無紀錄</div><div class="daily-layout-note daily-note">評估僅針對已量測的水溫、pH；溶氧和鹽度須到下方原有四指標模擬器輸入，不會把歷史值自動當成即時值。</div></section>
+      </div>
+      <div class="daily-grid" id="daily-archives">
+        <section class="daily-card"><h3>D｜備用池資產</h3><p><strong>X1</strong>：水鴨池　<span class="daily-badge">備用／未排每日任務</span></p><p><strong>X2</strong>：淨化池　<span class="daily-badge">備用／未排每日任務</span></p><p class="daily-note">X1／X2 不使用白蝦的水質警示標準；未收到你的具體作業排程前，不自動新增待辦。</p></section>
+        <section class="daily-card"><h3>資料匯出與保護</h3><button type="button" id="measure-export" class="daily-btn">匯出量測 CSV</button> <button type="button" id="routine-clear" class="daily-btn">清除所選日期作業勾選</button><p class="daily-note" id="daily-storage-note" role="status">所有日常紀錄以獨立鍵值保存，不覆蓋原本四指標水質評估歷史。</p></section>
+      </div>
+    </section>
+
+    <section id="legacy-quality" class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
         <div class="eyebrow"><span class="eyebrow-dot"></span> SMART AQUACULTURE / WATER QUALITY</div>
         <h1 id="hero-title">讓水質數據，成為<br>清楚可見的管理資訊。</h1>
@@ -765,6 +800,43 @@
     render();
     // 可在瀏覽器 Console 或自動化測試中讀取純運算函式，無後端、無外部 API。
     window.ShrimpQualityDemo = Object.freeze({ assessValue, render, makeCsv, renderHistoryChart, storageKey: STORAGE_KEY, version: "0.2" });
+
+    // v0.4 每日作業增量模組；舊有 v0.3 四指標評估程式不修改。
+    (() => {
+      const TASKS = [
+        ["06:00","C","關閉海水","海水系統"],
+        ["06:30","A","餵食白蝦","B1"],["06:30","A","餵食白蝦","M1"],
+        ["06:30","A","量測水溫與 pH","B1"],["06:30","A","量測水溫與 pH","M1"],
+        ["06:30","B","狗糧＋飲用水","4 隻小狗"],
+        ["10:00","A","餵食白蝦","B1"],["10:00","A","餵食白蝦","M1"],
+        ["11:00","A","量測水溫","B1"],["11:00","A","量測水溫","M1"],
+        ["14:00","A","餵食白蝦","B1"],["14:00","A","餵食白蝦","M1"],
+        ["16:00","A","量測水溫與 pH","B1"],["16:00","A","量測水溫與 pH","M1"],
+        ["17:00","A","餵食白蝦","B1"],["17:00","A","餵食白蝦","M1"],
+        ["17:00","B","狗糧＋飲用水","4 隻小狗"],
+        ["17:30","C","開啟海水","海水系統"]
+      ];
+      const K_TASK = "tt_wk05_daily_tasks_v04", K_MEAS = "tt_wk05_pond_measure_v04";
+      const el = id => document.getElementById(id);
+      const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const today = () => localDate(new Date());
+      const safeLoad = (key) => { try {let v=JSON.parse(localStorage.getItem(key)||'{}');return v && typeof v==='object' && !Array.isArray(v)?v:{};}catch(e){return {};} };
+      let taskStore=safeLoad(K_TASK), measureStore=safeLoad(K_MEAS);
+      let storageOK=true;
+      function persist(key, value){try{localStorage.setItem(key,JSON.stringify(value));storageOK=true;}catch(e){storageOK=false;el('daily-storage-note').textContent='無法寫入瀏覽器儲存空間；本頁變更僅暫存於目前畫面，請立即匯出備份。';} }
+      function cleanDay(){let d=el('routine-date').value;return /^\d{4}-\d{2}-\d{2}$/.test(d)?d:today();}
+      function stateForDay(d){let arr=taskStore[d]; return Array.isArray(arr)?arr.filter(v=>Number.isInteger(v)&&v>=0&&v<TASKS.length):[];}
+      function paintTasks(){let d=cleanDay(), done=stateForDay(d),filter=el('routine-filter').value;let body=el('routine-body');body.replaceChildren();TASKS.forEach((t,i)=>{if(filter!=='all' && t[1]!==filter)return;let tr=document.createElement('tr');[t[0],t[1],t[2],t[3]].forEach(x=>{let td=document.createElement('td');td.textContent=x;tr.appendChild(td)});let td=document.createElement('td'),input=document.createElement('input');input.type='checkbox';input.checked=done.includes(i);input.setAttribute('aria-label',`${t[0]} ${t[2]} ${t[3]} 完成`);input.addEventListener('change',()=>{let vals=stateForDay(d);taskStore[d]=input.checked?[...new Set([...vals,i])].sort((a,b)=>a-b):vals.filter(x=>x!==i);persist(K_TASK,taskStore);paintTasks()});td.appendChild(input);tr.appendChild(td);body.appendChild(tr)});el('routine-summary').textContent=`${d}：已完成 ${done.length} / ${TASKS.length} 項（${Math.round(done.length/TASKS.length*100)}%）`;el('routine-progress-fill').style.width=`${done.length/TASKS.length*100}%`;el('routine-progress').setAttribute('aria-valuenow',String(done.length));}
+      function adjustSlot(){let single=el('measure-slot').value==='11:00';el('measure-ph').disabled=single;el('measure-ph').required=!single;el('measure-ph-wrap').classList.toggle('daily-muted',single);if(single)el('measure-ph').value='';}
+      function renderMeasurements(){let d=cleanDay(),arr=Array.isArray(measureStore[d])?measureStore[d]:[];let root=el('measurements-list');root.replaceChildren();if(!arr.length){root.textContent='這一天尚無量測資料。';return;}let tbl=document.createElement('table');tbl.className='daily-table';let head=document.createElement('thead');head.innerHTML='<tr><th>時段</th><th>池別</th><th>水溫</th><th>pH</th><th>已量測項目評估</th></tr>';tbl.appendChild(head);let body=document.createElement('tbody');for(let record of [...arr].sort((a,b)=>a.slot.localeCompare(b.slot)||a.pond.localeCompare(b.pond))){let tr=document.createElement('tr');let checks=[assessValue('temperature',record.temperature)];if(record.ph!==null)checks.push(assessValue('ph',record.ph));let severity=checks.includes('danger')?'danger':checks.includes('warning')?'warning':checks.includes('invalid')?'invalid':'normal';let values=[record.slot,record.pond,`${record.temperature.toFixed(1)}°C`,record.ph===null?'未量測':record.ph.toFixed(1),severity==='invalid'?'資料異常':({normal:'已量測項目正常',warning:'有注意項目',danger:'有高風險項目'}[severity])];values.forEach((x,i)=>{let td=document.createElement('td');td.textContent=x;if(i===4)td.className='daily-status';tr.appendChild(td)});body.appendChild(tr)}tbl.appendChild(body);let wrap=document.createElement('div');wrap.className='daily-table-wrap';wrap.appendChild(tbl);root.appendChild(wrap);}
+      function submitMeasurement(e){e.preventDefault();let d=cleanDay(),slot=el('measure-slot').value,pond=el('measure-pond').value,single=slot==='11:00',temperature=Number(el('measure-temp').value), ph=single?null:Number(el('measure-ph').value);if(!['B1','M1'].includes(pond)||!['06:30','11:00','16:00'].includes(slot)||el('measure-temp').value.trim()===''||assessValue('temperature',temperature)==='invalid'||(!single&&(el('measure-ph').value.trim()===''||assessValue('ph',ph)==='invalid'))){el('measure-message').textContent='資料無效，請檢查範圍及精度。';return;}let arr=Array.isArray(measureStore[d])?measureStore[d].filter(x=>x.pond!==pond||x.slot!==slot):[];arr.push({pond,slot,temperature,ph,savedAt:new Date().toISOString()});measureStore[d]=arr;persist(K_MEAS,measureStore);renderMeasurements();el('measure-message').textContent=`${d} ${slot} ${pond} 已${arr.length?'儲存／更新':''}量測。此為部分指標判定。`;}
+      function csv(rows,filename){let safe=v=>{let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};let content='\ufeff'+rows.map(row=>row.map(safe).join(',')).join('\r\n');let url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'}));let a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);}
+      function exportTasks(){let rows=[['日期','排程時間','類別','工作','位置／對象','完成']];Object.keys(taskStore).sort().forEach(d=>TASKS.forEach((t,i)=>rows.push([d,...t,stateForDay(d).includes(i)?'完成':'未完成'])));if(rows.length===1){let d=cleanDay();TASKS.forEach((t,i)=>rows.push([d,...t,stateForDay(d).includes(i)?'完成':'未完成']));}csv(rows,'shrimp-daily-routine.csv');}
+      function exportMeasures(){let rows=[['日期','排程時段','池別','水溫°C','pH','儲存時間']];Object.keys(measureStore).sort().forEach(d=>{let arr=measureStore[d];if(Array.isArray(arr))arr.forEach(r=>rows.push([d,r.slot,r.pond,r.temperature,r.ph===null?'未量測':r.ph,r.savedAt]))});csv(rows,'shrimp-pond-measurements.csv');}
+      el('routine-date').value=today();el('routine-date').addEventListener('change',()=>{paintTasks();renderMeasurements()});el('routine-today').addEventListener('click',()=>{el('routine-date').value=today();paintTasks();renderMeasurements()});el('routine-filter').addEventListener('change',paintTasks);el('measure-slot').addEventListener('change',adjustSlot);el('measure-form').addEventListener('submit',submitMeasurement);el('routine-export').addEventListener('click',exportTasks);el('measure-export').addEventListener('click',exportMeasures);el('routine-clear').addEventListener('click',()=>{let d=cleanDay();if(!confirm(`確定清除 ${d} 的每日作業勾選？水質量測紀錄不會刪除。`))return;delete taskStore[d];persist(K_TASK,taskStore);paintTasks()});adjustSlot();paintTasks();renderMeasurements();
+      window.ShrimpDailyOperations=Object.freeze({tasks:TASKS.map(x=>[...x]),storageKeys:[K_TASK,K_MEAS],version:'0.4'});
+    })();
+
   </script>
 </body>
 </html>
