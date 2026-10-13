@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b2033">
+  <meta name="description" content="智慧白蝦養殖水質評估系統：互動調整水溫、pH、溶氧與鹽度，即時查看示範性風險評估與管理提示。">
+  <title>智慧白蝦養殖水質評估系統｜TT-C-WK05</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #152b3d;
+      --muted: #64798c;
+      --border: #e1eaf1;
+      --surface: #ffffff;
+      --canvas: #f4f8fb;
+      --navy: #08273b;
+      --accent: #047e91;
+      --accent-soft: #e9f9f9;
+      --normal: #107e68;
+      --normal-bg: #e4f6ef;
+      --warning: #ac6a05;
+      --warning-bg: #fff3d8;
+      --danger: #bd4050;
+      --danger-bg: #ffeaed;
+      --invalid: #637386;
+      --invalid-bg: #e9eff4;
+      --shadow: 0 10px 34px rgba(26, 56, 74, .055);
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--canvas); color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #55b6cc; outline-offset: 3px; }
+    .shell { max-width: 1216px; margin: 0 auto; padding: 0 30px; }
+    .site-header { background: #fff; border-bottom: 1px solid #e8eff4; }
+    .header-inner { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark { width: 41px; height: 41px; border-radius: 13px; background: #e6f7f5; display: grid; place-items: center; flex: 0 0 auto; }
+    .brand-mark svg { width: 27px; height: 27px; }
+    .brand strong { display: block; font-size: 17px; letter-spacing: .025em; line-height: 1.3; }
+    .brand small { font-size: 11px; letter-spacing: .10em; color: var(--muted); font-weight: 700; }
+    .header-meta { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .header-tag { border-radius: 8px; border: 1px solid #e1eaf0; padding: 5px 10px; font-size: 11px; color: #52687a; font-weight: 800; white-space: nowrap; }
+    .header-tag--solid { border-color: #d6efeb; color: #087e6a; background: #effbf8; }
+    main { padding-bottom: 28px; }
+    .hero {
+      position: relative; overflow: hidden; min-height: 251px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 30px 0 17px; border-radius: 23px;
+      background: linear-gradient(116deg, #0a2337 3%, #0d3b53 52%, #126e77 115%);
+      box-shadow: 0 18px 46px rgba(12, 43, 62, .13);
+      color: white;
+    }
+    .hero::before { content: ""; position: absolute; right: -105px; bottom: -235px; width: 550px; height: 550px; border: 1px solid rgba(118, 230, 217, .16); border-radius: 50%; box-shadow: 0 0 0 60px rgba(121, 226, 216,.045), 0 0 0 126px rgba(121, 226, 216,.025); }
+    .hero::after { content: ""; position: absolute; right: 11%; top: 17%; width: 280px; height: 210px; border-radius: 50%; background: radial-gradient(circle, rgba(87, 213, 210, .17), transparent 68%); filter: blur(6px); }
+    .hero-copy { position: relative; z-index: 1; max-width: 650px; padding: 35px 42px 38px; }
+    .eyebrow { display: flex; gap: 9px; align-items: center; color: #a8e9e0; font-size: 11px; letter-spacing: .17em; font-weight: 800; }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 100%; background: #6fe7c6; box-shadow: 0 0 0 4px rgba(111,231,198,.14); }
+    .hero h1 { font-size: clamp(25px, 3.1vw, 35px); margin: 15px 0 11px; font-weight: 800; letter-spacing: .02em; line-height: 1.35; }
+    .hero p { margin: 0; color: #cfdee9; font-size: 14px; line-height: 1.85; max-width: 540px; }
+    .hero-chips { display: flex; gap: 9px; margin-top: 21px; flex-wrap: wrap; }
+    .hero-chip { font-size: 11px; border: 1px solid rgba(195,246,245,.23); color: #dffcfb; border-radius: 99px; padding: 6px 11px; background: rgba(255,255,255,.055); }
+    .hero-art { z-index: 1; width: 270px; flex: 0 0 270px; margin-right: 40px; }
+    .hero-art svg { width: 100%; display: block; filter: drop-shadow(0 12px 15px rgba(0,0,0,.13)); }
+    .notice { padding: 12px 17px; border: 1px solid #dde6ee; display: flex; gap: 11px; align-items: flex-start; border-radius: 12px; background: #ecf3f8; color: #52677c; font-size: 12px; }
+    .notice svg { width: 17px; height: 17px; color: #5a8299; flex: 0 0 auto; margin-top: 1px; }
+    .section-caption { color: #7b8e9f; font-size: 11px; text-transform: uppercase; letter-spacing: .17em; font-weight: 850; margin: 27px 0 12px; }
+    .summary-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(215px, .9fr) minmax(215px, .9fr); gap: 15px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .summary-primary { padding: 23px 26px 21px; display: flex; justify-content: space-between; align-items: center; gap: 18px; border-left: 4px solid var(--normal); transition: border-color .15s; }
+    .overline { display: block; font-size: 12px; color: #718497; font-weight: 800; letter-spacing: .04em; }
+    .summary-primary h2 { margin: 7px 0 4px; font-size: 24px; color: var(--normal); line-height: 1.25; }
+    .summary-primary p { font-size: 12px; color: var(--muted); margin: 0; max-width: 380px; }
+    .state-icon { width: 68px; height: 68px; flex: 0 0 auto; background: var(--normal-bg); border-radius: 19px; color: var(--normal); display: grid; place-items: center; }
+    .state-icon svg { width: 33px; height: 33px; }
+    .summary-stat { padding: 23px 25px; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+    .summary-stat strong { font-size: 32px; line-height: 1.12; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+    .summary-stat small { color: var(--muted); font-size: 11px; }
+    .summary-stat .marker { font-size: 10px; font-weight: 900; color: #078574; letter-spacing: .06em; }
+    .work-title { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 35px 0 16px; }
+    .work-title h2 { margin: 0; font-size: 23px; letter-spacing: .005em; }
+    .work-title p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .subtle-tag { font-size: 11px; color: var(--accent); background: #e5f4f5; border-radius: 30px; padding: 7px 12px; font-weight: 750; white-space: nowrap; }
+    .work-grid { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr); gap: 18px; align-items: stretch; }
+    .panel { padding: 23px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+    .panel-head h3 { font-size: 16px; margin: 0; }
+    .panel-head p { font-size: 12px; color: #8091a0; margin: 4px 0 0; }
+    .panel-kicker { font-size: 10px; color: #7b95a3; background: #eff6f8; border-radius: 5px; font-weight: 900; padding: 6px 9px; white-space: nowrap; }
+    .control-list { display: grid; gap: 11px; }
+    .parameter-control { border: 1px solid #e8eff3; background: #fcfefe; border-radius: 12px; padding: 14px 16px 13px; transition: border-color .15s, background .15s; }
+    .parameter-control:focus-within { border-color: #9ccdd4; background: #fff; }
+    .param-top { display: flex; justify-content: space-between; align-items: center; gap: 13px; margin-bottom: 6px; }
+    .param-label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; }
+    .param-symbol { width: 26px; height: 26px; border-radius: 8px; background: #e9f5f7; color: #0c8fa2; display: grid; place-items: center; font-size: 15px; font-weight: 850; }
+    .param-en { color: #91a1ae; font-size: 10px; font-weight: 650; margin-left: 3px; }
+    .field { display: flex; gap: 4px; align-items: baseline; }
+    .field input[type="number"] { width: 82px; border-radius: 8px; padding: 5px 6px; border: 1px solid #dce8ee; color: #15384b; font-size: 17px; font-weight: 850; text-align: right; background: #fff; font-variant-numeric: tabular-nums; }
+    .field input[type="number"][aria-invalid="true"] { border-color: var(--danger); background: #fff5f6; }
+    .field-unit { min-width: 32px; color: #79909d; font-size: 11px; font-weight: 700; text-align: right; }
+    .range-control { display: block; width: 100%; height: 20px; margin: 7px 0 1px; cursor: pointer; background: transparent; appearance: none; -webkit-appearance: none; }
+    .range-control::-webkit-slider-runnable-track { height: 6px; border-radius: 10px; background: linear-gradient(90deg, #12a6b6 var(--fill), #e2ebef var(--fill)); }
+    .range-control::-moz-range-track { height: 6px; border-radius: 10px; background: #e2ebef; }
+    .range-control::-moz-range-progress { height: 6px; background: #12a6b6; border-radius: 10px; }
+    .range-control::-webkit-slider-thumb { -webkit-appearance: none; width: 17px; height: 17px; background: #fff; border: 4px solid #0494a9; border-radius: 50%; margin-top: -6px; box-shadow: 0 2px 7px #135d6a2c; }
+    .range-control::-moz-range-thumb { width: 11px; height: 11px; background: #fff; border: 4px solid #0494a9; border-radius: 50%; box-shadow: 0 2px 7px #135d6a2c; }
+    .range-ends { display: flex; justify-content: space-between; color: #9baab7; font-size: 10px; font-variant-numeric: tabular-nums; }
+    .input-error { color: #bb384c; font-size: 11px; margin: 7px 0 0; font-weight: 650; }
+    .input-error[hidden] { display: none; }
+    .scenario-area { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e6edf1; }
+    .scenario-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+    .scenario-header strong { font-size: 12px; }
+    .scenario-header small { font-size: 10px; color: #96a8b3; }
+    .scenario-buttons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .scenario-btn { padding: 10px 7px; background: #fff; border: 1px solid #dfe9ee; border-radius: 9px; color: #4a6476; font-size: 12px; font-weight: 750; transition: .15s; }
+    .scenario-btn:hover, .scenario-btn[aria-pressed="true"] { color: #0c7785; background: #effbfc; border-color: #7bb9c3; }
+    .scenario-btn[aria-pressed="true"] { box-shadow: inset 0 0 0 1px #77beca; }
+    .reset-btn { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; padding: 9px 0 1px; color: #5a7a8d; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+    .result-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+    .risk-card { border: 1px solid #e8eef2; background: #fdfefe; border-radius: 12px; padding: 14px; position: relative; min-height: 132px; }
+    .risk-card::before { content: ""; position: absolute; left: 0; top: 15px; bottom: 15px; width: 3px; border-radius: 0 5px 5px 0; background: var(--normal); }
+    .risk-card[data-status="warning"]::before { background: var(--warning); }
+    .risk-card[data-status="danger"]::before { background: var(--danger); }
+    .risk-card[data-status="invalid"]::before { background: var(--invalid); }
+    .risk-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .risk-card-top > strong { font-size: 12px; }
+    .risk-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 850; border-radius: 8px; padding: 3px 8px; background: var(--normal-bg); color: var(--normal); white-space: nowrap; }
+    .risk-badge::before { content: ""; width: 6px; height: 6px; background: currentColor; border-radius: 50%; }
+    .risk-card[data-status="warning"] .risk-badge { background: var(--warning-bg); color: var(--warning); }
+    .risk-card[data-status="danger"] .risk-badge { background: var(--danger-bg); color: var(--danger); }
+    .risk-card[data-status="invalid"] .risk-badge { background: var(--invalid-bg); color: var(--invalid); }
+    .risk-reading { display: flex; gap: 6px; align-items: baseline; margin-top: 14px; }
+    .risk-reading strong { font-size: 25px; letter-spacing: -.035em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .risk-reading span { font-size: 11px; font-weight: 700; color: #899ba8; }
+    .risk-normal-range { font-size: 10px; color: #8a9caa; margin: 8px 0 0; }
+    .advice-panel { border: 1px solid #e0e9ee; border-radius: 13px; padding: 16px 18px; margin-top: 13px; background: #f2f8f9; }
+    .advice-title { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 850; }
+    .advice-title svg { width: 18px; height: 18px; color: #098698; }
+    .advice-panel ul { padding-left: 21px; margin: 0; font-size: 12px; line-height: 1.75; color: #536c7f; }
+    .advice-panel li+li { margin-top: 3px; }
+    .advice-panel--invalid { background: #fff7f7; border-color: #f1d8dc; }
+    .advice-panel--invalid .advice-title { color: #b4394c; }
+    .footnote { margin: 17px 0 0; color: #8a9ba8; font-size: 11px; line-height: 1.9; }
+    .footnote strong { color: #657f91; }
+    .site-footer { border-top: 1px solid #e4edf1; margin-top: 27px; padding-top: 17px; display: flex; justify-content: space-between; gap: 12px; font-size: 11px; color: #8da0ad; }
+    .summary-primary[data-status="normal"] { border-left-color: var(--normal); }
+    .summary-primary[data-status="warning"] { border-left-color: var(--warning); }
+    .summary-primary[data-status="danger"] { border-left-color: var(--danger); }
+    .summary-primary[data-status="invalid"] { border-left-color: var(--invalid); }
+    .summary-primary[data-status="warning"] h2 { color: var(--warning); }
+    .summary-primary[data-status="danger"] h2 { color: var(--danger); }
+    .summary-primary[data-status="invalid"] h2 { color: var(--invalid); }
+    .summary-primary[data-status="warning"] .state-icon { color: var(--warning); background: var(--warning-bg); }
+    .summary-primary[data-status="danger"] .state-icon { color: var(--danger); background: var(--danger-bg); }
+    .summary-primary[data-status="invalid"] .state-icon { color: var(--invalid); background: var(--invalid-bg); }
+    @media (max-width: 1050px) { .hero-art { width: 210px; flex-basis: 210px; margin-right: 22px; } .summary-grid { grid-template-columns: 1.5fr .8fr .8fr; } .summary-stat { padding: 17px; } .panel { padding: 20px; } .work-grid { gap: 13px; } }
+    @media (max-width: 840px) { .summary-grid { grid-template-columns: 1fr 1fr; } .summary-primary { grid-column: 1 / -1; } .work-grid { grid-template-columns: 1fr; } .hero-art { opacity: .42; position: absolute; right: 5px; bottom: -22px; } .hero-copy { padding-right: 40px; } }
+    @media (max-width: 570px) {
+      .shell { padding: 0 15px; }
+      .header-inner { min-height: 72px; gap: 9px; }
+      .brand { gap: 9px; }
+      .brand strong { font-size: 13px; }
+      .brand small { font-size: 9px; letter-spacing: .03em; }
+      .brand-mark { width: 34px; height: 34px; border-radius: 10px; }
+      .brand-mark svg { width: 22px; height: 22px; }
+      .header-tag { padding: 4px 7px; font-size: 10px; }
+      .header-tag:not(.header-tag--solid) { display: none; }
+      .hero { min-height: 254px; margin-top: 18px; border-radius: 17px; }
+      .hero-copy { padding: 26px 22px 26px; }
+      .hero h1 { font-size: 24px; max-width: 325px; }
+      .hero p { font-size: 12px; line-height: 1.8; }
+      .hero-art { width: 195px; opacity: .19; right: -39px; bottom: -17px; }
+      .hero-chip { font-size: 10px; padding: 5px 8px; }
+      .notice { padding: 12px; font-size: 11px; }
+      .section-caption { margin-top: 23px; }
+      .summary-grid { gap: 10px; }
+      .summary-primary { padding: 17px; }
+      .summary-primary h2 { font-size: 22px; }
+      .summary-primary p { font-size: 11px; }
+      .state-icon { width: 51px; height: 51px; border-radius: 13px; }
+      .state-icon svg { width: 26px; height: 26px; }
+      .summary-stat { padding: 17px; }
+      .summary-stat strong { font-size: 26px; }
+      .work-title { align-items: flex-start; margin-top: 28px; }
+      .work-title h2 { font-size: 20px; }
+      .work-title p { font-size: 12px; }
+      .subtle-tag { display: none; }
+      .panel { padding: 15px; }
+      .panel-head { margin-bottom: 14px; }
+      .parameter-control { padding: 12px; }
+      .param-label { font-size: 12px; }
+      .param-en { display: none; }
+      .result-list { gap: 8px; }
+      .risk-card { min-height: 124px; padding: 12px; }
+      .risk-card-top { align-items: flex-start; flex-direction: column; gap: 5px; }
+      .risk-reading { margin-top: 10px; }
+      .site-footer { flex-direction: column; gap: 3px; }
+    }
+    /* v0.2: 歷史紀錄、趨勢圖與匯出（全部原生 Web API） */
+    .history-section { margin-top: 32px; }
+    .history-top { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin: 0 0 14px; }
+    .history-top h2 { font-size: 23px; margin: 0; }
+    .history-top p { font-size: 12px; color: var(--muted); margin: 5px 0 0; }
+    .history-count { white-space: nowrap; color: #087e8b; background: #e8f6f8; padding: 6px 10px; border-radius: 12px; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .history-toolbar { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+    .history-button { border: 1px solid #cce1e9; border-radius: 10px; padding: 11px 15px; background: #f5fbfc; color: #175c6b; font-size: 13px; font-weight: 800; min-height: 43px; }
+    .history-button:hover:not(:disabled) { background: #e6f5f8; border-color: #9bcbd5; }
+    .history-button--main { background: #087f90; border-color: #087f90; color: #fff; }
+    .history-button--main:hover:not(:disabled) { background: #08697a; border-color: #08697a; }
+    .history-button--danger { margin-left: auto; background: #fff; color: #a83c4a; border-color: #f0cbd1; }
+    .history-button--danger:hover:not(:disabled) { background: #fff0f1; border-color: #e8a4b0; }
+    .history-button:disabled { opacity: .43; cursor: not-allowed; }
+    .history-message { min-height: 21px; font-size: 12px; color: #4c7382; margin: 1px 0 12px; }
+    .history-message[data-tone="error"] { color: #b33f4e; }
+    .history-message[data-tone="success"] { color: #087e68; }
+    .history-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 17px; align-items: stretch; }
+    .history-card { padding: 22px; min-width: 0; }
+    .history-card-head { display: flex; justify-content: space-between; align-items: start; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+    .history-card-head h3 { margin: 0; font-size: 16px; }
+    .history-card-head p { margin: 3px 0 0; color: #7e91a2; font-size: 11px; }
+    .history-select { border-radius: 9px; padding: 8px 11px; color: #244c5f; background: #fff; border: 1px solid #cedfe6; min-width: 120px; font-size: 13px; }
+    .chart-shell { min-height: 260px; border-radius: 12px; padding: 11px 7px 5px; background: #f7fbfd; border: 1px solid #e9f0f4; display: grid; place-items: center; }
+    .chart-shell svg { width: 100%; height: auto; overflow: visible; display: block; }
+    .chart-shell svg[hidden] { display: none; }
+    .chart-empty, .history-empty { color: #7791a0; font-size: 13px; text-align: center; line-height: 1.8; padding: 20px; }
+    .chart-legend { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 12px; color: #6f8594; font-size: 11px; }
+    .chart-key { display: inline-block; width: 17px; height: 5px; border-radius: 5px; background: #0c8d9c; margin-right: 5px; vertical-align: middle; }
+    .chart-key--band { background: #b9e6d7; }
+    .table-viewport { width: 100%; overflow-x: auto; border: 1px solid #e7edf3; border-radius: 10px; }
+    .history-table { border-collapse: collapse; width: 100%; min-width: 610px; font-size: 11px; font-variant-numeric: tabular-nums; }
+    .history-table thead { background: #eef6f8; color: #496879; }
+    .history-table th, .history-table td { padding: 10px 9px; border-bottom: 1px solid #e9f0f3; text-align: right; white-space: nowrap; }
+    .history-table th:first-child, .history-table td:first-child { text-align: left; }
+    .history-table tbody tr:last-child td { border-bottom: none; }
+    .history-table tbody tr:hover { background: #f7fbfc; }
+    .history-table caption { text-align: left; font-size: 12px; color: #5b7484; padding: 12px; }
+    .history-pill { display: inline-block; border-radius: 6px; padding: 3px 7px; background: var(--normal-bg); color: var(--normal); font-weight: 800; }
+    .history-pill[data-status="warning"] { background: var(--warning-bg); color: var(--warning); }
+    .history-pill[data-status="danger"] { background: var(--danger-bg); color: var(--danger); }
+    .history-info { margin: 12px 0 0; color: #8597a6; font-size: 11px; }
+    .history-info strong { color: #536c7c; }
+    @media (max-width: 920px) { .history-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 570px) { .history-top { align-items: flex-start; } .history-top h2 { font-size: 20px; } .history-card { padding: 15px; } .history-button { padding: 9px 11px; font-size: 12px; } .history-button--danger { margin-left: 0; } .history-toolbar { gap: 7px; } .chart-shell { min-height: 220px; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <div class="brand" aria-label="智慧白蝦養殖水質評估系統">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M20 3C15 11 9 17 9 24a11 11 0 0 0 22 0c0-7-6-13-11-21Z" fill="#12a4a0"/><path d="M12 26c4-5 6 4 10-1s5-2 6-3" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <div><strong>智慧白蝦水質評估</strong><small>SHRIMP QUALITY LAB</small></div>
+      </div>
+      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DEMO v0.2</span></div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> SMART AQUACULTURE / WATER QUALITY</div>
+        <h1 id="hero-title">讓水質數據，成為<br>清楚可見的管理資訊。</h1>
+        <p>手動調整水溫、酸鹼值、溶氧與鹽度，立即查看四項指標的示範性風險分級，以及對應的觀察與複測提示。</p>
+        <div class="hero-chips"><span class="hero-chip">4 項水質指標</span><span class="hero-chip">即時風險評估</span><span class="hero-chip">離線可操作</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 290 215" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="149" cy="107" r="85" stroke="#7EE3DF" stroke-opacity=".31" stroke-width="1" stroke-dasharray="4 7"/>
+          <circle cx="149" cy="107" r="69" fill="#D9FFFF" fill-opacity=".06" stroke="#98E1E1" stroke-opacity=".23"/>
+          <path d="M70 147c37-28 72-19 108-5 27 10 45-2 66-16" stroke="#74D6D6" stroke-opacity=".3" stroke-width="2"/>
+          <path d="M67 157c39-28 77-18 114-4 29 11 47-1 68-14" stroke="#74D6D6" stroke-opacity=".14" stroke-width="2"/>
+          <path d="M91 91c9-30 38-45 65-38 25 6 35 24 30 41-5 21-34 27-46 15-7-8-4-18 6-20 8-1 14 4 13 10" stroke="#B7F7EA" stroke-width="8" stroke-linecap="round"/>
+          <path d="M90 92 77 81m15 9-17 5m27-21-10-19m19 11-5-22m20 15 0-19m23 26 12-19m-10 34 26-7m-23 25 25 6m-28 8 11 18" stroke="#B7F7EA" stroke-width="4" stroke-linecap="round"/>
+          <path d="m83 80-12-11m16 20-18-1" stroke="#B7F7EA" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="91" cy="83" r="2.8" fill="#143E52"/>
+          <circle cx="218" cy="52" r="4" fill="#82E7DB"/><circle cx="242" cy="72" r="2.4" fill="#82E7DB"/><circle cx="224" cy="170" r="3" fill="#82E7DB"/>
+          <path d="M115 167c11-6 24-6 35 0s24 6 34 0" stroke="#A4E8E7" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </section>
+
+    <div class="notice" role="note">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 10v6m0-9v1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <div><strong>教學模擬，不是即時池況或 AI 預測。</strong> 正常區間參考特定海水型白蝦生物絮團（BFT）養殖文獻；注意／高風險界線屬本作業自訂示範規則，不能直接用於現場控制或診斷。</div>
+    </div>
+
+    <p class="section-caption">01 / CURRENT ASSESSMENT · 當前評估</p>
+    <section class="summary-grid" aria-label="即時評估總覽">
+      <div class="card summary-primary" data-status="normal" id="summary-primary" aria-live="polite" aria-atomic="true">
+        <div><span class="overline">整體水質評估</span><h2 id="overall-status">正常範圍</h2><p id="overall-message">目前四項數值均符合示範正常區間。</p></div>
+        <div class="state-icon" aria-hidden="true">
+          <svg id="status-icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="15" stroke="currentColor" stroke-width="2.7"/><path d="m13 20 5 5 9-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="card summary-stat"><span class="overline">符合正常區間</span><strong id="normal-count">4 / 4</strong><small>僅代表符合範圍的項目數</small></div>
+      <div class="card summary-stat"><span class="overline">資料模式</span><strong style="font-size:25px">手動模擬</strong><span class="marker">● RULE-BASED DEMO</span><small>沒有連接即時感測器</small></div>
+    </section>
+
+    <div class="work-title"><div><h2>水質模擬工作台</h2><p>調整左側讀值，右側風險狀態會同步更新。</p></div><span class="subtle-tag">◉ 即時計算 · 無需送出</span></div>
+    <div class="work-grid">
+      <section class="card panel" aria-labelledby="input-title">
+        <div class="panel-head"><div><h3 id="input-title">01&nbsp; 水質參數輸入</h3><p>可拖曳滑桿，或直接輸入精確數值</p></div><span class="panel-kicker">INPUT</span></div>
+        <div class="control-list">
+          <div class="parameter-control" data-param="temperature">
+            <div class="param-top"><label class="param-label" for="number-temperature"><span class="param-symbol">℃</span>水溫<span class="param-en">TEMP.</span></label><div class="field"><input id="number-temperature" type="number" min="15" max="40" step="0.1" value="29.0" inputmode="decimal" aria-describedby="error-temperature"><span class="field-unit">°C</span></div></div>
+            <input id="range-temperature" class="range-control" type="range" min="15" max="40" step="0.1" value="29" aria-label="水溫滑桿"><div class="range-ends"><span>15°C</span><span>40°C</span></div><p class="input-error" id="error-temperature" hidden></p>
+          </div>
+          <div class="parameter-control" data-param="ph">
+            <div class="param-top"><label class="param-label" for="number-ph"><span class="param-symbol">pH</span>酸鹼值<span class="param-en">ACIDITY</span></label><div class="field"><input id="number-ph" type="number" min="5" max="10" step="0.1" value="8.0" inputmode="decimal" aria-describedby="error-ph"><span class="field-unit">pH</span></div></div>
+            <input id="range-ph" class="range-control" type="range" min="5" max="10" step="0.1" value="8" aria-label="酸鹼值滑桿"><div class="range-ends"><span>5.0</span><span>10.0</span></div><p class="input-error" id="error-ph" hidden></p>
+          </div>
+          <div class="parameter-control" data-param="dissolvedOxygen">
+            <div class="param-top"><label class="param-label" for="number-dissolvedOxygen"><span class="param-symbol">O₂</span>溶氧<span class="param-en">DISSOLVED OXYGEN</span></label><div class="field"><input id="number-dissolvedOxygen" type="number" min="0" max="15" step="0.1" value="6.0" inputmode="decimal" aria-describedby="error-dissolvedOxygen"><span class="field-unit">mg/L</span></div></div>
+            <input id="range-dissolvedOxygen" class="range-control" type="range" min="0" max="15" step="0.1" value="6" aria-label="溶氧滑桿"><div class="range-ends"><span>0 mg/L</span><span>15 mg/L</span></div><p class="input-error" id="error-dissolvedOxygen" hidden></p>
+          </div>
+          <div class="parameter-control" data-param="salinity">
+            <div class="param-top"><label class="param-label" for="number-salinity"><span class="param-symbol">≈</span>鹽度<span class="param-en">SALINITY</span></label><div class="field"><input id="number-salinity" type="number" min="0" max="45" step="1" value="25" inputmode="decimal" aria-describedby="error-salinity"><span class="field-unit">g/L</span></div></div>
+            <input id="range-salinity" class="range-control" type="range" min="0" max="45" step="1" value="25" aria-label="鹽度滑桿"><div class="range-ends"><span>0 g/L</span><span>45 g/L</span></div><p class="input-error" id="error-salinity" hidden></p>
+          </div>
+        </div>
+        <div class="scenario-area"><div class="scenario-header"><strong>快速情境模擬</strong><small>一鍵切換示範水質</small></div>
+          <div class="scenario-buttons" role="group" aria-label="選擇示範情境">
+            <button type="button" class="scenario-btn" data-scenario="normal" aria-pressed="true">✓ 正常水質</button>
+            <button type="button" class="scenario-btn" data-scenario="warning" aria-pressed="false">! 需要注意</button>
+            <button type="button" class="scenario-btn" data-scenario="danger" aria-pressed="false">⚑ 高風險</button>
+          </div>
+          <button type="button" class="reset-btn" id="reset-btn">↺ 還原預設數值</button>
+        </div>
+      </section>
+
+      <section class="card panel" aria-labelledby="result-title">
+        <div class="panel-head"><div><h3 id="result-title">02&nbsp; 即時風險評估</h3><p>以四項指標中最嚴重的狀態為整體結果</p></div><span class="panel-kicker">RESULT</span></div>
+        <div class="result-list" aria-label="個別水質狀態">
+          <article class="risk-card" data-result="temperature" data-status="normal"><div class="risk-card-top"><strong>水溫</strong><span class="risk-badge" id="badge-temperature">正常</span></div><div class="risk-reading"><strong id="reading-temperature">29.0</strong><span>°C</span></div><p class="risk-normal-range">參考正常區間：28–30°C</p></article>
+          <article class="risk-card" data-result="ph" data-status="normal"><div class="risk-card-top"><strong>酸鹼值 pH</strong><span class="risk-badge" id="badge-ph">正常</span></div><div class="risk-reading"><strong id="reading-ph">8.0</strong><span>pH</span></div><p class="risk-normal-range">參考正常區間：7.5–8.2</p></article>
+          <article class="risk-card" data-result="dissolvedOxygen" data-status="normal"><div class="risk-card-top"><strong>溶氧</strong><span class="risk-badge" id="badge-dissolvedOxygen">正常</span></div><div class="risk-reading"><strong id="reading-dissolvedOxygen">6.0</strong><span>mg/L</span></div><p class="risk-normal-range">參考正常區間：4–8 mg/L</p></article>
+          <article class="risk-card" data-result="salinity" data-status="normal"><div class="risk-card-top"><strong>鹽度</strong><span class="risk-badge" id="badge-salinity">正常</span></div><div class="risk-reading"><strong id="reading-salinity">25</strong><span>g/L</span></div><p class="risk-normal-range">參考正常區間：20–35 g/L</p></article>
+        </div>
+        <div class="advice-panel" id="advice-panel" aria-live="polite">
+          <div class="advice-title"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18h6m-5 3h4m-5-7a7 7 0 1 1 6 0l-1 2H10l-1-2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="advice-heading">建議觀察事項</span></div>
+          <ul id="advice-list"><li>四項數值均位於示範正常區間，建議持續定時量測並留意日夜變化。</li></ul>
+        </div>
+        <p class="footnote"><strong>分級原則：</strong>正常／注意／高風險。任何輸入無效時暫停整體評估。此版採手動輸入與規則評估，歷史紀錄只儲存在目前瀏覽器，不是即時感測器資料。</p>
+      </section>
+    </div>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <p class="section-caption">02 / LOCAL HISTORY · 本機歷史紀錄</p>
+      <div class="history-top">
+        <div><h2 id="history-title">水質紀錄與趨勢分析</h2><p>手動儲存評估，每個瀏覽器最多保留最近 20 筆；資料不會上傳伺服器。</p></div>
+        <span class="history-count" id="history-count">0 / 20 筆</span>
+      </div>
+      <div class="history-toolbar" role="group" aria-label="歷史資料操作">
+        <button class="history-button history-button--main" type="button" id="save-history">＋ 儲存本次評估</button>
+        <button class="history-button" type="button" id="export-csv" disabled>↓ 匯出 CSV</button>
+        <button class="history-button history-button--danger" type="button" id="clear-history" disabled>清除全部紀錄</button>
+      </div>
+      <p class="history-message" id="history-message" role="status" aria-live="polite">尚無儲存紀錄，調整數值後按下「儲存本次評估」即可新增。</p>
+      <div class="history-grid">
+        <section class="card history-card" aria-labelledby="chart-title">
+          <div class="history-card-head">
+            <div><h3 id="chart-title">歷史折線趨勢</h3><p>按儲存時間由舊至新排列；陰影表示示範正常區間</p></div>
+            <label for="chart-parameter" class="overline">選擇指標
+              <select class="history-select" id="chart-parameter" aria-label="選擇歷史趨勢圖參數">
+                <option value="temperature">水溫（°C）</option><option value="ph">酸鹼值（pH）</option><option value="dissolvedOxygen">溶氧（mg/L）</option><option value="salinity">鹽度（g/L）</option>
+              </select>
+            </label>
+          </div>
+          <div class="chart-shell" id="chart-shell"><div class="chart-empty" id="chart-empty">目前沒有紀錄。新增第一筆評估後，圖表會自動出現。</div><svg id="history-chart" viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="歷史水溫折線圖" hidden></svg></div>
+          <div class="chart-legend"><span><span class="chart-key"></span>歷史量測值</span><span><span class="chart-key chart-key--band"></span>示範正常參考區間</span></div>
+        </section>
+        <section class="card history-card" aria-labelledby="records-title">
+          <div class="history-card-head"><div><h3 id="records-title">歷史評估明細</h3><p>表格由最新到最舊；數值為儲存當時的手動輸入</p></div><span class="panel-kicker">LOCAL ONLY</span></div>
+          <div class="table-viewport" id="history-table-wrap">
+            <table class="history-table" id="history-table">
+              <caption>本機儲存的水質評估紀錄（最近 20 筆）</caption>
+              <thead><tr><th scope="col">儲存時間</th><th scope="col">水溫 °C</th><th scope="col">pH</th><th scope="col">溶氧 mg/L</th><th scope="col">鹽度 g/L</th><th scope="col">整體狀態</th></tr></thead>
+              <tbody id="history-body"><tr><td colspan="6" class="history-empty">尚未儲存任何紀錄。</td></tr></tbody>
+            </table>
+          </div>
+          <p class="history-info"><strong>資料保護：</strong>紀錄保存在此瀏覽器的 LocalStorage，不會同步到其他裝置。私密瀏覽或清除網站資料後可能遺失。CSV 下載僅由本機產生。</p>
+        </section>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>TT-C-WK05 · Vibe Coding 練習作品 · v0.2</span>
+      <span>文獻正常區間：Virginia Tech BFT 白蝦養殖指南｜警示級距：課堂示範規則</span>
+    </footer>
+  </main>
+
+  <script>
+    "use strict";
+    // TT-C-WK05 v0.2 — 純前端水質風險示範；勿用於實際養殖控制。
+    // 正常區間參考 Virginia Tech 的海水型 BFT 白蝦養殖指南；警示邊界為本專案教學自訂。
+    const CONFIG = Object.freeze({
+      temperature: { name: "水溫", min: 15, max: 40, step: 0.1, digits: 1, normal: [28, 30], warningBounds: [26, 31] },
+      ph: { name: "酸鹼值", min: 5, max: 10, step: 0.1, digits: 1, normal: [7.5, 8.2], warningBounds: [7, 9] },
+      dissolvedOxygen: { name: "溶氧", min: 0, max: 15, step: 0.1, digits: 1, normal: [4, 8], warningBounds: [3, Infinity] },
+      salinity: { name: "鹽度", min: 0, max: 45, step: 1, digits: 0, normal: [20, 35], warningBounds: [15, 40] }
+    });
+    const SCENARIOS = Object.freeze({
+      normal: { temperature: 29, ph: 8, dissolvedOxygen: 6, salinity: 25 },
+      warning: { temperature: 31, ph: 8.6, dissolvedOxygen: 3.5, salinity: 37 },
+      danger: { temperature: 33, ph: 9.2, dissolvedOxygen: 2.5, salinity: 42 }
+    });
+    const STATUS_LABEL = { normal: "正常", warning: "注意", danger: "高風險", invalid: "待確認" };
+    const PARAM_KEYS = Object.keys(CONFIG);
+    const $ = id => document.getElementById(id);
+    const STORAGE_KEY = "tt_wk05_shrimp_history_v1";
+    const THRESHOLD_VERSION = "BFT-DEMO-1.0";
+    const HISTORY_LIMIT = 20;
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    let historyRecords = [];
+    let historyStorageAvailable = true;
+    let currentAssessment = null;
+    let idSequence = 0;
+
+    // 規則唯一來源：端點包含關係與 PRD 的 4.2 表完全一致。
+    function assessValue(key, value) {
+      const c = CONFIG[key];
+      if (!c || !Number.isFinite(value) || value < c.min || value > c.max ||
+          Math.abs(value / c.step - Math.round(value / c.step)) > 1e-7) return "invalid";
+      if (value >= c.normal[0] && value <= c.normal[1]) return "normal";
+      if (value >= c.warningBounds[0] && value <= c.warningBounds[1]) return "warning";
+      return "danger";
+    }
+    function parseInput(key) {
+      const input = $("number-" + key), raw = input.value.trim(), c = CONFIG[key];
+      if (raw === "" || input.validity.badInput) return { value: NaN, error: "請輸入有效數值。" };
+      const value = Number(raw);
+      if (!Number.isFinite(value)) return { value: NaN, error: "請輸入有效數值。" };
+      if (value < c.min || value > c.max) return { value, error: `請輸入 ${c.min} 至 ${c.max} 的數值。` };
+      if (Math.abs(value / c.step - Math.round(value / c.step)) > 1e-7) {
+        return { value, error: c.step === 1 ? "請輸入整數。" : "請輸入至多一位小數。" };
+      }
+      return { value, error: null };
+    }
+    function format(key, value) { return value.toFixed(CONFIG[key].digits); }
+    function setFill(key, value) {
+      const c = CONFIG[key];
+      $("range-" + key).style.setProperty("--fill", `${((value - c.min) / (c.max - c.min) * 100).toFixed(2)}%`);
+    }
+    function updateFieldError(key, error) {
+      const input = $("number-" + key), errorEl = $("error-" + key);
+      input.setAttribute("aria-invalid", String(Boolean(error)));
+      errorEl.textContent = error || "";
+      errorEl.hidden = !error;
+    }
+    function suggestions(key, value, status) {
+      if (status === "normal") return null;
+      switch (key) {
+        case "temperature": return value > CONFIG.temperature.normal[1]
+          ? "水溫偏高：建議複測並觀察日照、池深及近期溫度變化。"
+          : "水溫偏低：建議複測並確認環境溫度與近期變化。";
+        case "ph": return "pH 偏離示範正常區間：建議於不同時間複測，留意日夜波動。";
+        case "dissolvedOxygen": return value < CONFIG.dissolvedOxygen.normal[0]
+          ? "溶氧偏低：建議優先複測並檢查增氧設備運作狀況。"
+          : "溶氧高於示範參考區間：建議複測並確認儀器校正與量測情境。";
+        case "salinity": return "鹽度偏離示範正常區間：建議複測並確認降雨、蒸發與補水變化。";
+        default: return null;
+      }
+    }
+    function updateAdvice(messages, invalid) {
+      const panel = $("advice-panel"), list = $("advice-list");
+      panel.classList.toggle("advice-panel--invalid", invalid);
+      $("advice-heading").textContent = invalid ? "請先修正輸入資料" : "建議觀察事項";
+      list.replaceChildren();
+      if (invalid) messages = ["有一項或多項輸入資料無效。請修正標示的欄位，系統才會重新計算整體狀態。"]; // 不留下舊評估建議
+      if (!messages.length) messages = ["四項數值均位於示範正常區間，建議持續定時量測並留意日夜變化。"];
+      for (const msg of messages) { const li = document.createElement("li"); li.textContent = msg; list.appendChild(li); }
+    }
+    function render() {
+      const values = {}, statuses = {}, advice = [];
+      let normalCount = 0, hasInvalid = false, hasDanger = false, hasWarning = false;
+      for (const key of PARAM_KEYS) {
+        const parsed = parseInput(key);
+        const status = parsed.error ? "invalid" : assessValue(key, parsed.value);
+        updateFieldError(key, parsed.error);
+        values[key] = parsed.value; statuses[key] = status;
+        if (status === "normal") normalCount++;
+        if (status === "danger") hasDanger = true;
+        if (status === "warning") hasWarning = true;
+        if (status === "invalid") hasInvalid = true;
+        const riskCard = document.querySelector(`[data-result="${key}"]`);
+        riskCard.dataset.status = status;
+        $("badge-" + key).textContent = STATUS_LABEL[status];
+        $("reading-" + key).textContent = status === "invalid" ? "—" : format(key, parsed.value);
+        if (status !== "normal" && status !== "invalid") advice.push(suggestions(key, parsed.value, status));
+      }
+      const overall = hasInvalid ? "invalid" : hasDanger ? "danger" : hasWarning ? "warning" : "normal";
+      const title = { normal: "正常範圍", warning: "需要注意", danger: "高風險情境", invalid: "資料待確認" }[overall];
+      const message = {
+        normal: "目前四項數值均符合示範正常區間。",
+        warning: "至少一項數值偏離示範正常區間，請查看下方提示。",
+        danger: "至少一項數值達示範高風險條件，建議優先複測異常項目。",
+        invalid: "必要欄位存在錯誤；修正前暫停整體評估。"
+      }[overall];
+      $("summary-primary").dataset.status = overall;
+      $("overall-status").textContent = title;
+      $("overall-message").textContent = message;
+      $("normal-count").textContent = hasInvalid ? "— / 4" : `${normalCount} / 4`;
+      const icon = $("status-icon");
+      if (overall === "normal") icon.innerHTML = '<circle cx="20" cy="20" r="15" stroke="currentColor" stroke-width="2.7"/><path d="m13 20 5 5 9-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+      else icon.innerHTML = '<circle cx="20" cy="20" r="15" stroke="currentColor" stroke-width="2.7"/><path d="M20 11v11m0 6v1" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>';
+      updateAdvice(advice, hasInvalid);
+      currentAssessment = { overall, statuses, values, normalCount };
+      const saveButton = $("save-history");
+      if (saveButton) {
+        saveButton.disabled = hasInvalid || !historyStorageAvailable;
+        saveButton.title = hasInvalid ? "請修正無效的水質數值再儲存" : !historyStorageAvailable ? "瀏覽器不支援本機儲存" : "儲存目前四項水質參數";
+      }
+      return currentAssessment;
+    }
+    function selectScenarioButton(selected) {
+      document.querySelectorAll(".scenario-btn").forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.scenario === selected));
+      });
+    }
+    function applyValues(readings, name) {
+      for (const key of PARAM_KEYS) {
+        const n = readings[key];
+        $("number-" + key).value = format(key, n);
+        $("range-" + key).value = String(n);
+        setFill(key, n);
+      }
+      selectScenarioButton(name);
+      render();
+    }
+    for (const key of PARAM_KEYS) {
+      const range = $("range-" + key), number = $("number-" + key);
+      range.addEventListener("input", () => {
+        number.value = format(key, Number(range.value));
+        setFill(key, Number(range.value));
+        selectScenarioButton(null);
+        render();
+      });
+      number.addEventListener("input", () => {
+        const parsed = parseInput(key);
+        if (!parsed.error) { range.value = String(parsed.value); setFill(key, parsed.value); }
+        selectScenarioButton(null);
+        render();
+      });
+      setFill(key, Number(range.value));
+    }
+    document.querySelectorAll(".scenario-btn").forEach(button => {
+      button.addEventListener("click", () => applyValues(SCENARIOS[button.dataset.scenario], button.dataset.scenario));
+    });
+    $("reset-btn").addEventListener("click", () => applyValues(SCENARIOS.normal, "normal"));
+    /* ────────── v0.2 歷史儲存、折線圖、CSV ────────── */
+    function showHistoryMessage(text, tone = "info") {
+      const msg = $("history-message");
+      msg.textContent = text;
+      msg.dataset.tone = tone;
+    }
+    function validateStoredRecord(item) {
+      if (!item || typeof item !== "object" || typeof item.id !== "string" ||
+          !Number.isFinite(Date.parse(item.timestamp)) || !item.values || typeof item.values !== "object") return null;
+      const values = {}, statuses = {};
+      for (const key of PARAM_KEYS) {
+        // 儲存資料仍須通過與目前版規則完全相同的數值驗證。
+        const val = item.values[key];
+        if (typeof val !== "number") return null;
+        const status = assessValue(key, val);
+        if (status === "invalid") return null;
+        values[key] = val;
+        statuses[key] = status;
+      }
+      const overall = Object.values(statuses).includes("danger") ? "danger" :
+                      Object.values(statuses).includes("warning") ? "warning" : "normal";
+      if (item.overallStatus !== overall || item.thresholdVersion !== THRESHOLD_VERSION) return null;
+      return { id: item.id, timestamp: item.timestamp, values, overallStatus: overall,
+               parameterStatuses: statuses, thresholdVersion: THRESHOLD_VERSION };
+    }
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw === null) { historyRecords = []; return; }
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) throw new Error("資料結構不正確");
+        const cleaned = parsed.map(validateStoredRecord).filter(Boolean);
+        historyRecords = cleaned.slice(-HISTORY_LIMIT);
+        if (cleaned.length !== parsed.length || parsed.length > HISTORY_LIMIT) {
+          // 安全略過無效或超額紀錄，不因壞資料讓網頁完全無法操作。
+          showHistoryMessage("部分本機紀錄格式不正確，已略過異常項目。", "error");
+        }
+      } catch (err) {
+        historyRecords = [];
+        if (err instanceof SyntaxError) {
+          showHistoryMessage("既有歷史資料無法解析，已略過；新紀錄仍可正常儲存。", "error");
+        } else if (err instanceof DOMException && (err.name === "SecurityError" || err.name === "QuotaExceededError")) {
+          historyStorageAvailable = false;
+          showHistoryMessage("瀏覽器限制了本機儲存；水質評估仍可使用，但無法儲存紀錄。", "error");
+        } else {
+          showHistoryMessage("既有歷史紀錄讀取失敗；不影響水質評估。", "error");
+        }
+      }
+    }
+    function persistHistory(nextRecords) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(nextRecords));
+        historyRecords = nextRecords;
+        return true;
+      } catch (err) {
+        showHistoryMessage("無法寫入本機紀錄（可能是儲存空間不足或隱私模式限制）。", "error");
+        if (err instanceof DOMException && err.name === "SecurityError") {
+          historyStorageAvailable = false;
+          render();
+        }
+        return false;
+      }
+    }
+    function makeRecord() {
+      const a = currentAssessment;
+      if (!a || a.overall === "invalid" || PARAM_KEYS.some(key => assessValue(key, a.values[key]) === "invalid")) return null;
+      const statuses = { ...a.statuses };
+      idSequence++;
+      const id = (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function")
+        ? crypto.randomUUID() : `${Date.now()}-${idSequence}`;
+      return { id, timestamp: new Date().toISOString(), values: { ...a.values },
+               overallStatus: a.overall, parameterStatuses: statuses, thresholdVersion: THRESHOLD_VERSION };
+    }
+    function saveHistory() {
+      // 使用 render() 再次核對輸入，避免直接點按時保存過期計算結果。
+      const a = render();
+      if (!historyStorageAvailable) { showHistoryMessage("本機儲存不可用，無法新增紀錄。", "error"); return; }
+      if (a.overall === "invalid") { showHistoryMessage("請先修正水質欄位的輸入錯誤，再儲存紀錄。", "error"); return; }
+      const record = makeRecord();
+      if (!record) return;
+      const next = [...historyRecords, record].slice(-HISTORY_LIMIT);
+      if (persistHistory(next)) {
+        renderHistory();
+        showHistoryMessage(`已儲存本次評估（${historyRecords.length} / 20 筆）。${next.length === HISTORY_LIMIT ? "已達上限，後續新增將自動移除最舊一筆。" : ""}`, "success");
+      }
+    }
+    function clearHistory() {
+      if (!historyRecords.length) return;
+      if (!window.confirm(`確定要刪除目前全部 ${historyRecords.length} 筆歷史紀錄嗎？此動作無法復原。`)) return;
+      if (persistHistory([])) { renderHistory(); showHistoryMessage("歷史紀錄已清除。", "success"); }
+    }
+    function formatLocalTime(iso) {
+      return new Intl.DateTimeFormat("zh-TW", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).format(new Date(iso));
+    }
+    function renderHistoryTable() {
+      const tbody = $("history-body");
+      tbody.replaceChildren();
+      if (!historyRecords.length) {
+        const row = document.createElement("tr"), cell = document.createElement("td");
+        cell.colSpan = 6; cell.className = "history-empty"; cell.textContent = "尚未儲存任何紀錄。";
+        row.appendChild(cell); tbody.appendChild(row); return;
+      }
+      for (const record of [...historyRecords].reverse()) {
+        const tr = document.createElement("tr");
+        const fields = [formatLocalTime(record.timestamp), ...PARAM_KEYS.map(key => format(key, record.values[key]))];
+        for (const content of fields) {
+          const td = document.createElement("td"); td.textContent = content; tr.appendChild(td);
+        }
+        const td = document.createElement("td"), tag = document.createElement("span");
+        tag.className = "history-pill"; tag.dataset.status = record.overallStatus;
+        tag.textContent = STATUS_LABEL[record.overallStatus]; td.appendChild(tag); tr.appendChild(td);
+        tbody.appendChild(tr);
+      }
+    }
+    function appendSvg(parent, name, attrs, textContent) {
+      const node = document.createElementNS(SVG_NS, name);
+      for (const [key, value] of Object.entries(attrs || {})) node.setAttribute(key, String(value));
+      if (textContent !== undefined) node.textContent = textContent;
+      parent.appendChild(node);
+      return node;
+    }
+    function renderHistoryChart() {
+      const svg = $("history-chart"), empty = $("chart-empty"), key = $("chart-parameter").value;
+      svg.replaceChildren();
+      if (!historyRecords.length || !CONFIG[key]) {
+        svg.setAttribute("hidden", ""); empty.hidden = false; return;
+      }
+      svg.removeAttribute("hidden"); empty.hidden = true;
+      const c = CONFIG[key], measurements = historyRecords.map(r => r.values[key]);
+      const W = 720, H = 280, L = 62, R = 24, T = 28, B = 49;
+      const pw = W-L-R, ph = H-T-B;
+      let lower = Math.min(...measurements, c.normal[0]), upper = Math.max(...measurements, c.normal[1]);
+      const baseSpan = Math.max(c.step * 5, upper - lower);
+      lower = Math.max(c.min, lower - baseSpan * 0.12);
+      upper = Math.min(c.max, upper + baseSpan * 0.12);
+      if (upper <= lower) upper = lower + 1;
+      const x = i => L + (measurements.length === 1 ? pw / 2 : i / (measurements.length - 1) * pw);
+      const y = v => T + (upper - v) / (upper - lower) * ph;
+      svg.setAttribute("aria-label", `歷史${c.name}折線圖，共 ${measurements.length} 筆，範圍 ${Math.min(...measurements).toFixed(c.digits)} 至 ${Math.max(...measurements).toFixed(c.digits)}`);
+      appendSvg(svg,"title",{}, `${c.name}歷史折線圖`);
+      appendSvg(svg,"desc",{}, `共${measurements.length}筆紀錄，按儲存時間排列。綠色陰影為示範正常參考區間。`);
+      const bandTop = y(Math.min(upper, c.normal[1])), bandBottom = y(Math.max(lower, c.normal[0]));
+      if (bandBottom > bandTop) appendSvg(svg, "rect", { x:L, y:bandTop, width:pw, height:bandBottom-bandTop, fill:"#d6f1e8", opacity:0.72 });
+      for (let tick=0; tick<=4; tick++) {
+        const value = lower + (upper-lower)*tick/4, py = y(value);
+        appendSvg(svg,"line",{x1:L,y1:py,x2:W-R,y2:py,stroke:"#dce8ed","stroke-dasharray":"3 5","stroke-width":1});
+        appendSvg(svg,"text",{x:L-10,y:py+4,fill:"#648193","font-size":12,"text-anchor":"end"},value.toFixed(c.digits));
+      }
+      appendSvg(svg,"line",{x1:L,y1:T,x2:L,y2:T+ph,stroke:"#94abb8","stroke-width":1.2});
+      appendSvg(svg,"line",{x1:L,y1:T+ph,x2:W-R,y2:T+ph,stroke:"#94abb8","stroke-width":1.2});
+      const points = measurements.map((value,i)=>`${x(i).toFixed(2)},${y(value).toFixed(2)}`).join(" ");
+      if (measurements.length > 1) appendSvg(svg,"polyline",{points,fill:"none",stroke:"#087f90","stroke-width":3,"stroke-linecap":"round","stroke-linejoin":"round"});
+      measurements.forEach((value,i) => {
+        const dot=appendSvg(svg,"circle",{cx:x(i),cy:y(value),r:4.4,fill:"#0b8494",stroke:"#fff","stroke-width":2});
+        appendSvg(dot,"title",{},`${i+1}｜${formatLocalTime(historyRecords[i].timestamp)}｜${c.name} ${format(key,value)}`);
+      });
+      const indices=[0,Math.floor((measurements.length-1)/2),measurements.length-1].filter((v,i,a)=>a.indexOf(v)===i);
+      for (const i of indices) appendSvg(svg,"text",{x:x(i),y:H-15,fill:"#648193","font-size":12,"text-anchor":"middle"},`第${i+1}筆`);
+      appendSvg(svg,"text",{x:L,y:14,fill:"#547a8e","font-size":12},`${c.name} · ${ {temperature:"°C",ph:"pH",dissolvedOxygen:"mg/L",salinity:"g/L"}[key]}`);
+    }
+    function renderHistory() {
+      $("history-count").textContent = `${historyRecords.length} / ${HISTORY_LIMIT} 筆`;
+      $("export-csv").disabled = !historyRecords.length;
+      $("clear-history").disabled = !historyRecords.length || !historyStorageAvailable;
+      renderHistoryTable();
+      renderHistoryChart();
+    }
+    function csvCell(value) {
+      const raw = String(value == null ? "" : value);
+      // 防止下載後在試算表中被當作公式執行（目前資料欄位均為內部字串/純數字）。
+      const safe = /^[\s]*[=+\-@]/.test(raw) ? "'" + raw : raw;
+      return '"' + safe.replace(/"/g,'""') + '"';
+    }
+    function makeCsv() {
+      const columns = ["時間(ISO 8601)","水溫(°C)","酸鹼值(pH)","溶氧(mg/L)","鹽度(g/L)","整體風險","門檻版本"];
+      const lines = [columns.map(csvCell).join(",")];
+      for (const row of historyRecords) {
+        lines.push([
+          row.timestamp, ...PARAM_KEYS.map(key=>format(key,row.values[key])),
+          STATUS_LABEL[row.overallStatus], row.thresholdVersion
+        ].map(csvCell).join(","));
+      }
+      return "\uFEFF" + lines.join("\r\n") + "\r\n";
+    }
+    function exportCsv() {
+      if (!historyRecords.length) return;
+      const csv=makeCsv();
+      const file = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+      const url=URL.createObjectURL(file);
+      const link=document.createElement("a");
+      link.href=url;
+      const now = new Date();
+      const date = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,"0")}${String(now.getDate()).padStart(2,"0")}`;
+      link.download=`TT-C-WK05-shrimp-water-quality-${date}.csv`;
+      document.body.appendChild(link);
+      link.click(); link.remove();
+      // URL 必須在下載觸發後回收，不使用第三方函式庫。
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      showHistoryMessage(`已產生 CSV（${historyRecords.length} 筆，UTF-8 BOM 編碼）。`, "success");
+    }
+    loadHistory();
+    $("save-history").addEventListener("click", saveHistory);
+    $("clear-history").addEventListener("click", clearHistory);
+    $("export-csv").addEventListener("click", exportCsv);
+    $("chart-parameter").addEventListener("change", renderHistoryChart);
+    renderHistory();
+    render();
+    // 可在瀏覽器 Console 或自動化測試中讀取純運算函式，無後端、無外部 API。
+    window.ShrimpQualityDemo = Object.freeze({ assessValue, render, makeCsv, renderHistoryChart, storageKey: STORAGE_KEY, version: "0.2" });
+  </script>
+</body>
+</html>
