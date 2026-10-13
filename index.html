@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b2033">
-  <meta name="description" content="智慧白蝦養殖水質評估系統：互動調整水溫、pH、溶氧與鹽度，即時查看示範性風險評估與管理提示。">
-  <title>智慧白蝦養殖水質評估系統｜TT-C-WK05</title>
+  <meta name="description" content="紀錄白蝦養殖日常作業彙整：B1、M1 每日餵食、量測、水質評估、海水開關與 IoT 訊號接入預留。">
+  <title>紀錄白蝦養殖日常作業彙整｜Shrimp Daily Operations Lab</title>
   <style>
     :root {
       color-scheme: light;
@@ -251,20 +251,20 @@
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 
     /* v0.4 Daily Operations */
-    .daily-section{margin:26px 0 36px;scroll-margin-top:24px}.daily-title{font-size:clamp(24px,3vw,34px);margin:0 0 8px;color:#102b3f}.daily-lead{color:#50697d;margin:0 0 16px}.daily-links{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.daily-links a{padding:10px 16px;border-radius:999px;text-decoration:none;background:#e3f4f3;color:#106c68;font-weight:750}.daily-card{background:white;border:1px solid #d7e4ed;border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(8,40,60,.04)}.daily-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px}.daily-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}.daily-toolbar input,.daily-toolbar select,.daily-card input,.daily-card select{font:inherit;border:1px solid #bdcfdc;border-radius:9px;padding:9px;max-width:100%;background:white;color:#102b3f}.daily-btn{border:1px solid #a6c6ce;border-radius:10px;padding:10px 15px;background:#eff8f9;color:#0d4c5a;cursor:pointer;font-weight:700}.daily-btn.primary{background:#007e80;color:white}.daily-btn:disabled{opacity:.48;cursor:not-allowed}.daily-progress-track{height:10px;background:#dce8ed;border-radius:10px;overflow:hidden}.daily-progress-fill{height:100%;width:0;background:#159b86}.daily-table-wrap{overflow-x:auto}.daily-table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}.daily-table th,.daily-table td{padding:11px 9px;text-align:left;border-bottom:1px solid #e2ebf0}.daily-table th{color:#547080;background:#f5f9fa}.daily-table input[type=checkbox]{width:20px;height:20px;accent-color:#008b7e}.daily-done{color:#278274}.daily-note{font-size:13px;color:#547080;line-height:1.7}.daily-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.daily-field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700}.daily-field input{width:100%}.daily-status{font-weight:800;color:#13546b}.daily-badge{display:inline-block;border-radius:99px;padding:4px 9px;background:#e7f1f5;color:#325d70;font-size:12px}.daily-badge.warning{background:#fff2cf;color:#846000}.daily-badge.danger{background:#fbe2e2;color:#a5252b}.daily-badge.normal{background:#dff4e9;color:#15714e}.daily-muted{opacity:.65}.daily-layout-note{background:#ebf6f7;padding:12px 16px;border-radius:12px;margin-top:16px}.daily-card h3{margin:0 0 12px}.daily-form-grid select{width:100%} .daily-mini{color:#567184;font-size:13px}.daily-section :focus-visible{outline:3px solid #04a7a1;outline-offset:2px}
+    .daily-section{margin:26px 0 36px;scroll-margin-top:24px}.daily-title{font-size:clamp(24px,3vw,34px);margin:0 0 8px;color:#102b3f}.daily-lead{color:#50697d;margin:0 0 16px}.daily-links{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.daily-links a{padding:10px 16px;border-radius:999px;text-decoration:none;background:#e3f4f3;color:#106c68;font-weight:750}.daily-card{background:white;border:1px solid #d7e4ed;border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(8,40,60,.04)}.daily-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px}.daily-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}.daily-toolbar input,.daily-toolbar select,.daily-card input,.daily-card select,.daily-card textarea{font:inherit;border:1px solid #bdcfdc;border-radius:9px;padding:9px;max-width:100%;background:white;color:#102b3f}.daily-btn{border:1px solid #a6c6ce;border-radius:10px;padding:10px 15px;background:#eff8f9;color:#0d4c5a;cursor:pointer;font-weight:700}.daily-btn.primary{background:#007e80;color:white}.daily-btn:disabled{opacity:.48;cursor:not-allowed}.daily-progress-track{height:10px;background:#dce8ed;border-radius:10px;overflow:hidden}.daily-progress-fill{height:100%;width:0;background:#159b86}.daily-table-wrap{overflow-x:auto}.daily-table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}.daily-table th,.daily-table td{padding:11px 9px;text-align:left;border-bottom:1px solid #e2ebf0}.daily-table th{color:#547080;background:#f5f9fa}.daily-table input[type=checkbox]{width:20px;height:20px;accent-color:#008b7e}.daily-done{color:#278274}.daily-note{font-size:13px;color:#547080;line-height:1.7}.daily-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.daily-field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700}.daily-field input{width:100%}.daily-status{font-weight:800;color:#13546b}.daily-badge{display:inline-block;border-radius:99px;padding:4px 9px;background:#e7f1f5;color:#325d70;font-size:12px}.daily-badge.warning{background:#fff2cf;color:#846000}.daily-badge.danger{background:#fbe2e2;color:#a5252b}.daily-badge.normal{background:#dff4e9;color:#15714e}.daily-muted{opacity:.65}.daily-layout-note{background:#ebf6f7;padding:12px 16px;border-radius:12px;margin-top:16px}.daily-card h3{margin:0 0 12px}.daily-form-grid select{width:100%} .daily-mini{color:#567184;font-size:13px}.daily-section :focus-visible{outline:3px solid #04a7a1;outline-offset:2px}
     @media(max-width:760px){.daily-grid{grid-template-columns:1fr}.daily-form-grid{grid-template-columns:1fr}.daily-card{padding:15px}.daily-toolbar{align-items:stretch}.daily-title{font-size:24px}}
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="shell header-inner">
-      <div class="brand" aria-label="智慧白蝦養殖水質評估系統">
+      <div class="brand" aria-label="紀錄白蝦養殖日常作業彙整">
         <div class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 40 40" fill="none"><path d="M20 3C15 11 9 17 9 24a11 11 0 0 0 22 0c0-7-6-13-11-21Z" fill="#12a4a0"/><path d="M12 26c4-5 6 4 10-1s5-2 6-3" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
         </div>
-        <div><strong>智慧白蝦水質評估</strong><small>SHRIMP QUALITY LAB</small></div>
+        <div><strong>紀錄白蝦養殖日常作業彙整</strong><small>SHRIMP DAILY OPERATIONS LAB</small></div>
       </div>
-      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.4</span></div>
+      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.4.1</span></div>
     </div>
   </header>
 
@@ -273,12 +273,12 @@
 
 
     <section id="daily-operations" class="daily-section" aria-labelledby="daily-title">
-      <h2 id="daily-title" class="daily-title">每日養殖場作業管理 <span class="daily-badge">v0.4</span></h2>
-      <p class="daily-lead">每日 18 項獨立工作｜B1、M1 白蝦池｜4 隻小狗｜海水 06:00 關閉、17:30 開啟。完成狀態按日期個別保存。</p>
+      <h2 id="daily-title" class="daily-title">白蝦養殖日常作業彙整 <span class="daily-badge">v0.4.1</span></h2>
+      <p class="daily-lead">每日 16 項獨立工作｜B1、M1 白蝦池｜海水 06:00 關閉、17:30 開啟。完成狀態按日期個別保存。</p>
       <div class="daily-card">
         <div class="daily-toolbar"><label for="routine-date"><strong>作業日期</strong></label><input type="date" id="routine-date"><button type="button" class="daily-btn" id="routine-today">返回今天</button><button type="button" class="daily-btn" id="routine-export">匯出作業 CSV</button></div>
-        <p id="routine-summary" class="daily-status" role="status">載入中……</p><div class="daily-progress-track" role="progressbar" id="routine-progress" aria-label="每日完成率" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0"><div id="routine-progress-fill" class="daily-progress-fill"></div></div>
-        <div class="daily-toolbar"><label for="routine-filter">分類</label><select id="routine-filter"><option value="all">全部 A／B／C</option><option value="A">A 白蝦</option><option value="B">B 小狗</option><option value="C">C 海水</option></select></div>
+        <p id="routine-summary" class="daily-status" role="status">載入中……</p><div class="daily-progress-track" role="progressbar" id="routine-progress" aria-label="每日完成率" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"><div id="routine-progress-fill" class="daily-progress-fill"></div></div>
+        <div class="daily-toolbar"><label for="routine-filter">分類</label><select id="routine-filter"><option value="all">全部 A／C</option><option value="A">A 白蝦</option><option value="C">C 海水</option></select></div>
         <div class="daily-table-wrap"><table class="daily-table"><thead><tr><th>時間</th><th>類別</th><th>工作</th><th>池別／對象</th><th>完成</th></tr></thead><tbody id="routine-body"></tbody></table></div>
         <p class="daily-note">06:30、17:00 多項工作分別勾選。勾選代表作業已執行，不等同水質已正常。紀錄儲存在此瀏覽器；跨裝置不會自動同步。</p>
       </div>
@@ -296,6 +296,17 @@
       </div>
       <div class="daily-grid" id="daily-archives">
         <section class="daily-card"><h3>D｜備用池資產</h3><p><strong>X1</strong>：水鴨池　<span class="daily-badge">備用／未排每日任務</span></p><p><strong>X2</strong>：淨化池　<span class="daily-badge">備用／未排每日任務</span></p><p class="daily-note">X1／X2 不使用白蝦的水質警示標準；未收到你的具體作業排程前，不自動新增待辦。</p></section>
+        <section class="daily-card" id="iot-integration"><h3>E｜IoT 設備訊號接入（預留） <span class="daily-badge">尚未連線</span></h3>
+          <p class="daily-note">未來可由 ESP32／閘道器使用 MQTT、HTTP API 或 WebSocket 接入。GitHub Pages 是靜態網站，不能在此直接接收外部設備推播；正式接入需要獨立且具身分驗證的閘道服務。此介面僅提供訊號格式測試與本機紀錄，不會啟動、關閉或控制任何設備。</p>
+          <div class="daily-form-grid">
+            <label class="daily-field">訊號來源<select id="iot-source"><option value="manual">手動 JSON 測試（目前可用）</option><option value="mqtt">MQTT（待接閘道）</option><option value="http">HTTPS API（待接閘道）</option><option value="websocket">WebSocket（待接閘道）</option></select></label>
+            <label class="daily-field">設備狀態<input id="iot-status" readonly value="離線／未配對" aria-label="IoT 設備連線狀態"></label>
+          </div>
+          <label class="daily-field" for="iot-json">模擬感測訊號（JSON，僅供測試）<textarea id="iot-json" rows="5" spellcheck="false">{"deviceId":"B1-SENSOR-01","pondId":"B1","parameter":"temperature","value":29.1,"unit":"°C","timestamp":"2026-10-13T06:30:00+08:00"}</textarea></label>
+          <div class="daily-toolbar"><button type="button" class="daily-btn primary" id="iot-validate">驗證並匯入測試訊號</button><button type="button" class="daily-btn" id="iot-export">匯出 IoT 訊號 CSV</button></div>
+          <p class="daily-note" id="iot-feedback" role="status" aria-live="polite">僅支援人工貼上測試資料。驗證成功後寫入獨立的本機訊號紀錄，不修改 B1／M1 人工量測、不標記每日任務完成。</p>
+          <div id="iot-log" class="daily-mini" aria-label="IoT 測試訊號紀錄"></div>
+        </section>
         <section class="daily-card"><h3>資料匯出與保護</h3><button type="button" id="measure-export" class="daily-btn">匯出量測 CSV</button> <button type="button" id="routine-clear" class="daily-btn">清除所選日期作業勾選</button><p class="daily-note" id="daily-storage-note" role="status">所有日常紀錄以獨立鍵值保存，不覆蓋原本四指標水質評估歷史。</p></section>
       </div>
     </section>
@@ -807,20 +818,28 @@
         ["06:00","C","關閉海水","海水系統"],
         ["06:30","A","餵食白蝦","B1"],["06:30","A","餵食白蝦","M1"],
         ["06:30","A","量測水溫與 pH","B1"],["06:30","A","量測水溫與 pH","M1"],
-        ["06:30","B","狗糧＋飲用水","4 隻小狗"],
         ["10:00","A","餵食白蝦","B1"],["10:00","A","餵食白蝦","M1"],
         ["11:00","A","量測水溫","B1"],["11:00","A","量測水溫","M1"],
         ["14:00","A","餵食白蝦","B1"],["14:00","A","餵食白蝦","M1"],
         ["16:00","A","量測水溫與 pH","B1"],["16:00","A","量測水溫與 pH","M1"],
         ["17:00","A","餵食白蝦","B1"],["17:00","A","餵食白蝦","M1"],
-        ["17:00","B","狗糧＋飲用水","4 隻小狗"],
         ["17:30","C","開啟海水","海水系統"]
       ];
-      const K_TASK = "tt_wk05_daily_tasks_v04", K_MEAS = "tt_wk05_pond_measure_v04";
+      const K_TASK = "tt_wk05_daily_tasks_v041", K_MEAS = "tt_wk05_pond_measure_v04";
       const el = id => document.getElementById(id);
       const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       const today = () => localDate(new Date());
       const safeLoad = (key) => { try {let v=JSON.parse(localStorage.getItem(key)||'{}');return v && typeof v==='object' && !Array.isArray(v)?v:{};}catch(e){return {};} };
+      // 舊版 v0.4 的完成索引共有 18 筆，第 5、16 筆是小狗；只在新鍵不存在時搬遷其他 16 筆。
+      // 避免既有勾選錯位，更不應刪除原版備份。
+      if(localStorage.getItem(K_TASK)===null){
+        const old=safeLoad('tt_wk05_daily_tasks_v04'), migrated={};
+        for(const [day,arr] of Object.entries(old)) if(Array.isArray(arr)){
+          migrated[day]=[...new Set(arr.filter(i=>Number.isInteger(i)&&i>=0&&i<18&&i!==5&&i!==16)
+            .map(i=>i-(i>16?2:i>5?1:0)))].sort((a,b)=>a-b);
+        }
+        try{localStorage.setItem(K_TASK,JSON.stringify(migrated));}catch(e){}
+      }
       let taskStore=safeLoad(K_TASK), measureStore=safeLoad(K_MEAS);
       let storageOK=true;
       function persist(key, value){try{localStorage.setItem(key,JSON.stringify(value));storageOK=true;}catch(e){storageOK=false;el('daily-storage-note').textContent='無法寫入瀏覽器儲存空間；本頁變更僅暫存於目前畫面，請立即匯出備份。';} }
@@ -834,7 +853,39 @@
       function exportTasks(){let rows=[['日期','排程時間','類別','工作','位置／對象','完成']];Object.keys(taskStore).sort().forEach(d=>TASKS.forEach((t,i)=>rows.push([d,...t,stateForDay(d).includes(i)?'完成':'未完成'])));if(rows.length===1){let d=cleanDay();TASKS.forEach((t,i)=>rows.push([d,...t,stateForDay(d).includes(i)?'完成':'未完成']));}csv(rows,'shrimp-daily-routine.csv');}
       function exportMeasures(){let rows=[['日期','排程時段','池別','水溫°C','pH','儲存時間']];Object.keys(measureStore).sort().forEach(d=>{let arr=measureStore[d];if(Array.isArray(arr))arr.forEach(r=>rows.push([d,r.slot,r.pond,r.temperature,r.ph===null?'未量測':r.ph,r.savedAt]))});csv(rows,'shrimp-pond-measurements.csv');}
       el('routine-date').value=today();el('routine-date').addEventListener('change',()=>{paintTasks();renderMeasurements()});el('routine-today').addEventListener('click',()=>{el('routine-date').value=today();paintTasks();renderMeasurements()});el('routine-filter').addEventListener('change',paintTasks);el('measure-slot').addEventListener('change',adjustSlot);el('measure-form').addEventListener('submit',submitMeasurement);el('routine-export').addEventListener('click',exportTasks);el('measure-export').addEventListener('click',exportMeasures);el('routine-clear').addEventListener('click',()=>{let d=cleanDay();if(!confirm(`確定清除 ${d} 的每日作業勾選？水質量測紀錄不會刪除。`))return;delete taskStore[d];persist(K_TASK,taskStore);paintTasks()});adjustSlot();paintTasks();renderMeasurements();
-      window.ShrimpDailyOperations=Object.freeze({tasks:TASKS.map(x=>[...x]),storageKeys:[K_TASK,K_MEAS],version:'0.4'});
+      // IoT 接口為訊號資料契約（contract），不會呼叫現場致動器。
+      const K_IOT='tt_wk05_iot_signals_v041';
+      let signalLog=[];
+      try{const read=JSON.parse(localStorage.getItem(K_IOT)||'[]');if(Array.isArray(read))signalLog=read.slice(-100);}catch(e){}
+      const allowed={temperature:'°C',ph:'',dissolvedOxygen:'mg/L',salinity:'g/L'};
+      function ingestSignal(payload){
+        if(!payload||typeof payload!=='object'||Array.isArray(payload))throw Error('訊號必須是 JSON 物件');
+        const {deviceId,pondId,parameter,value,unit,timestamp}=payload;
+        if(typeof deviceId!=='string'||! /^[A-Za-z0-9_-]{1,48}$/.test(deviceId))throw Error('deviceId 格式不正確');
+        if(!['B1','M1','X1','X2'].includes(pondId))throw Error('池別需為 B1、M1、X1 或 X2');
+        if(!Object.prototype.hasOwnProperty.call(allowed,parameter))throw Error('未知水質參數');
+        if(typeof value!=='number'||!Number.isFinite(value))throw Error('value 必須是有限數字');
+        if(unit!==allowed[parameter])throw Error('單位不一致');
+        if(typeof timestamp!=='string'||!/^\d{4}-\d{2}-\d{2}T/.test(timestamp)||Number.isNaN(Date.parse(timestamp)))throw Error('請提供含時區的 ISO 8601 時間');
+        if(!/(?:Z|[+-]\d{2}:\d{2})$/.test(timestamp))throw Error('timestamp 需包含時區');
+        if(['B1','M1'].includes(pondId)&&assessValue(parameter,value)==='invalid')throw Error('超出示範輸入範圍');
+        // X1／X2 不套白蝦門檻；只允許合理的儀器數值區間，不判定風險。
+        if(['X1','X2'].includes(pondId)&&((parameter==='temperature'&&(value<0||value>60))||(parameter==='ph'&&(value<0||value>14))||(parameter==='dissolvedOxygen'&&(value<0||value>30))||(parameter==='salinity'&&(value<0||value>60))))throw Error('超出設備示範範圍');
+        const record={deviceId,pondId,parameter,value,unit,timestamp,receivedAt:new Date().toISOString(),source:'test-import'};
+        signalLog.push(record);signalLog=signalLog.slice(-100);
+        persist(K_IOT,signalLog);paintSignals();return record;
+      }
+      function paintSignals(){const area=el('iot-log');area.replaceChildren();let p=document.createElement('p');p.textContent=`已匯入 ${signalLog.length} 筆本機測試訊號（最多 100 筆）。` ;area.appendChild(p);if(!signalLog.length)return;
+        const wrap=document.createElement('div');wrap.className='daily-table-wrap';const t=document.createElement('table');t.className='daily-table';
+        const head=document.createElement('thead');head.innerHTML='<tr><th>設備</th><th>池別</th><th>參數</th><th>值</th><th>訊號時間</th></tr>';t.appendChild(head);let body=document.createElement('tbody');
+        signalLog.slice(-5).reverse().forEach(r=>{let tr=document.createElement('tr');[r.deviceId,r.pondId,r.parameter,`${r.value} ${r.unit}`,r.timestamp].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});body.appendChild(tr)});t.appendChild(body);wrap.appendChild(t);area.appendChild(wrap);
+      }
+      el('iot-source').addEventListener('change',()=>{let val=el('iot-source').value;el('iot-validate').disabled=val!=='manual';el('iot-status').value=val==='manual'?'離線／僅測試':'尚未配置驗證閘道';el('iot-feedback').textContent=val==='manual'?'可貼上測試 JSON，僅儲存於本機。':'此通道是未來介面預留；目前不會連線或收取設備訊號。';});
+      el('iot-validate').addEventListener('click',()=>{try{const r=ingestSignal(JSON.parse(el('iot-json').value));el('iot-feedback').textContent=`測試訊號已記錄：${r.deviceId} / ${r.parameter} = ${r.value} ${r.unit}。未執行設備控制。`;}catch(e){el('iot-feedback').textContent='訊號驗證失敗：'+e.message;}});
+      el('iot-export').addEventListener('click',()=>{const rows=[['deviceId','pondId','parameter','value','unit','timestamp','receivedAt','source'],...signalLog.map(r=>[r.deviceId,r.pondId,r.parameter,r.value,r.unit,r.timestamp,r.receivedAt,r.source])];csv(rows,'shrimp-iot-test-signals.csv');});
+      paintSignals();
+      window.ShrimpIoTBridge=Object.freeze({validateAndStoreTestSignal:ingestSignal,storageKey:K_IOT,connected:false,note:'未實際連線，僅限可信測試輸入；正式設備須透過具驗證的後端閘道。'});
+      window.ShrimpDailyOperations=Object.freeze({tasks:TASKS.map(x=>[...x]),storageKeys:[K_TASK,K_MEAS,K_IOT],version:'0.4.1'});
     })();
 
   </script>
