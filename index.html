@@ -267,7 +267,7 @@
         </div>
         <div><strong>紀錄白蝦養殖日常作業彙整</strong><small>SHRIMP DAILY OPERATIONS LAB</small></div>
       </div>
-      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.5</span></div>
+      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.5.2.2</span></div>
     </div>
   </header>
 
@@ -878,7 +878,28 @@
       function submitMeasurement(e){e.preventDefault();let d=cleanDay(),slot=el('measure-slot').value,pond=el('measure-pond').value,single=slot==='11:00',temperature=Number(el('measure-temp').value), ph=single?null:Number(el('measure-ph').value);if(!['B1','M1'].includes(pond)||!['06:30','11:00','16:00'].includes(slot)||el('measure-temp').value.trim()===''||assessValue('temperature',temperature)==='invalid'||(!single&&(el('measure-ph').value.trim()===''||assessValue('ph',ph)==='invalid'))){el('measure-message').textContent='資料無效，請檢查範圍及精度。';return;}let arr=Array.isArray(measureStore[d])?measureStore[d].filter(x=>x.pond!==pond||x.slot!==slot):[];arr.push({pond,slot,temperature,ph,savedAt:new Date().toISOString()});measureStore[d]=arr;persist(K_MEAS,measureStore);renderMeasurements();el('measure-message').textContent=`${d} ${slot} ${pond} 已${arr.length?'儲存／更新':''}量測。此為部分指標判定。`;}
       function csv(rows,filename){let safe=v=>{let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};let content='\ufeff'+rows.map(row=>row.map(safe).join(',')).join('\r\n');let url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'}));let a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);}
       function exportTasks(){let rows=[['日期','排程時間','類別','工作','位置／對象','完成']];Object.keys(taskStore).sort().forEach(d=>TASKS.forEach((t,i)=>rows.push([d,...t,stateForDay(d).includes(i)?'完成':'未完成'])));if(rows.length===1){let d=cleanDay();TASKS.forEach((t,i)=>rows.push([d,...t,stateForDay(d).includes(i)?'完成':'未完成']));}csv(rows,'shrimp-daily-routine.csv');}
-      function exportMeasures(){let rows=[['日期','排程時段','池別','水溫°C','pH','儲存時間']];Object.keys(measureStore).sort().forEach(d=>{let arr=measureStore[d];if(Array.isArray(arr))arr.forEach(r=>rows.push([d,r.slot,r.pond,r.temperature,r.ph===null?'未量測':r.ph,r.savedAt]))});csv(rows,'shrimp-pond-measurements.csv');}
+      function exportMeasures(){
+        // Read from the same persisted store that the history editor uses; never export a cached snapshot.
+        const latest=safeLoad(K_MEAS);
+        const rows=[['日期','排程時段','池別','水溫°C','pH','儲存時間']];
+        for(const [day, records] of Object.entries(latest)){
+          if(!/^\d{4}-\d{2}-\d{2}$/.test(day) || !Array.isArray(records))continue;
+          for(const r of records){
+            if(!r||!['B1','M1'].includes(r.pond)||!['06:30','11:00','16:00'].includes(r.slot)||!Number.isFinite(r.temperature))continue;
+            rows.push([day,r.slot,r.pond,r.temperature,r.ph===null?'未量測':r.ph,r.savedAt||'']);
+          }
+        }
+        const n=rows.length-1;
+        if(!n){
+          const reason=`量測 CSV 已取消：目前網址 ${location.origin==='null'?'本機檔案':location.origin} 的儲存空間讀不到有效資料。請先進入「歷史量測管理」點查詢，確認同一個網址有資料。`;
+          el('daily-storage-note').textContent=reason;
+          alert(reason);
+          return;
+        }
+        csv(rows,'shrimp-pond-measurements.csv');
+        el('daily-storage-note').textContent=`已從目前網頁儲存空間匯出 ${n} 筆水質量測（B1/M1）；請開啟最新下載的檔案。`;
+      }
+
       el('routine-date').value=today();el('routine-date').addEventListener('change',()=>{paintTasks();renderMeasurements()});el('routine-today').addEventListener('click',()=>{el('routine-date').value=today();paintTasks();renderMeasurements()});el('routine-filter').addEventListener('change',paintTasks);el('measure-slot').addEventListener('change',adjustSlot);el('measure-form').addEventListener('submit',submitMeasurement);el('routine-export').addEventListener('click',exportTasks);el('measure-export').addEventListener('click',exportMeasures);el('routine-clear').addEventListener('click',()=>{let d=cleanDay();if(!confirm(`確定清除 ${d} 的每日作業勾選？水質量測紀錄不會刪除。`))return;delete taskStore[d];persist(K_TASK,taskStore);paintTasks()});adjustSlot();paintTasks();renderMeasurements();
       // IoT 接口為訊號資料契約（contract），不會呼叫現場致動器。
       const K_IOT='tt_wk05_iot_signals_v041';
@@ -964,6 +985,13 @@ let next=structuredClone(measure);next[day]=[...(next[day]||[]),nextRecord];if(!
 // Existing v0.4.1 listing's renderer reads its own closed-over cache, so rebuild it from storage for immediate presentation.
 const root=$('measurements-list');root.replaceChildren();const t=tableFor(['時段','池別','水溫','pH','資料狀態']);for(const r of (next[day]||[]).sort((a,b)=>a.slot.localeCompare(b.slot)||a.pond.localeCompare(b.pond))){let tr=t.createTBody().insertRow();[r.slot,r.pond,r.temperature.toFixed(1)+'°C',r.ph===null?'未量測':r.ph.toFixed(1),'已記錄（部分指標）'].forEach(x=>textCell(tr,x))}root.append(t);
 },true);
+// The archive's CSV export follows its own refreshed store; independent of the daily view cache.
+const sourceNote=document.createElement('p');sourceNote.className='daily-note';sourceNote.id='arc-export-check';sourceNote.setAttribute('role','status');
+$('arc-csv').insertAdjacentElement('afterend',sourceNote);
+function refreshExportCount(){const records=read(KEY_M,{});const n=Object.values(records||{}).reduce((sum,a)=>sum+(Array.isArray(a)?a.length:0),0);sourceNote.textContent=`目前網頁已儲存 ${n} 筆水質量測；匯出前請核對筆數。`;return n;}
+refreshExportCount();
+$('arc-search').addEventListener('click',refreshExportCount);
+$('measure-export').addEventListener('click',()=>{refreshExportCount()},true);
 $('arc-search').addEventListener('click',refresh);
 $('routine-date').addEventListener('change',refresh);
 $('arc-csv').addEventListener('click',()=>{let rows=[['量測日期','池別','時段','訂正時間','原始水溫','原始pH','訂正水溫','訂正pH','修改原因']];for(const [key,items] of Object.entries(audits)){const [day,pond,slot]=key.split('|');if(!Array.isArray(items))continue;for(const a of items)rows.push([day,pond,slot,a.at,a.before.temperature,a.before.ph??'',a.after.temperature,a.after.ph??'',a.reason])}download('shrimp-measure-revisions.csv',csv(rows),'text/csv;charset=utf-8')});
