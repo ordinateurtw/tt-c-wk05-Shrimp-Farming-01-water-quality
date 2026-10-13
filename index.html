@@ -253,7 +253,10 @@
     /* v0.4 Daily Operations */
     .daily-section{margin:26px 0 36px;scroll-margin-top:24px}.daily-title{font-size:clamp(24px,3vw,34px);margin:0 0 8px;color:#102b3f}.daily-lead{color:#50697d;margin:0 0 16px}.daily-links{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.daily-links a{padding:10px 16px;border-radius:999px;text-decoration:none;background:#e3f4f3;color:#106c68;font-weight:750}.daily-card{background:white;border:1px solid #d7e4ed;border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(8,40,60,.04)}.daily-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px}.daily-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}.daily-toolbar input,.daily-toolbar select,.daily-card input,.daily-card select,.daily-card textarea{font:inherit;border:1px solid #bdcfdc;border-radius:9px;padding:9px;max-width:100%;background:white;color:#102b3f}.daily-btn{border:1px solid #a6c6ce;border-radius:10px;padding:10px 15px;background:#eff8f9;color:#0d4c5a;cursor:pointer;font-weight:700}.daily-btn.primary{background:#007e80;color:white}.daily-btn:disabled{opacity:.48;cursor:not-allowed}.daily-progress-track{height:10px;background:#dce8ed;border-radius:10px;overflow:hidden}.daily-progress-fill{height:100%;width:0;background:#159b86}.daily-table-wrap{overflow-x:auto}.daily-table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}.daily-table th,.daily-table td{padding:11px 9px;text-align:left;border-bottom:1px solid #e2ebf0}.daily-table th{color:#547080;background:#f5f9fa}.daily-table input[type=checkbox]{width:20px;height:20px;accent-color:#008b7e}.daily-done{color:#278274}.daily-note{font-size:13px;color:#547080;line-height:1.7}.daily-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.daily-field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700}.daily-field input{width:100%}.daily-status{font-weight:800;color:#13546b}.daily-badge{display:inline-block;border-radius:99px;padding:4px 9px;background:#e7f1f5;color:#325d70;font-size:12px}.daily-badge.warning{background:#fff2cf;color:#846000}.daily-badge.danger{background:#fbe2e2;color:#a5252b}.daily-badge.normal{background:#dff4e9;color:#15714e}.daily-muted{opacity:.65}.daily-layout-note{background:#ebf6f7;padding:12px 16px;border-radius:12px;margin-top:16px}.daily-card h3{margin:0 0 12px}.daily-form-grid select{width:100%} .daily-mini{color:#567184;font-size:13px}.daily-section :focus-visible{outline:3px solid #04a7a1;outline-offset:2px}
     @media(max-width:760px){.daily-grid{grid-template-columns:1fr}.daily-form-grid{grid-template-columns:1fr}.daily-card{padding:15px}.daily-toolbar{align-items:stretch}.daily-title{font-size:24px}}
-  </style>
+  
+/* v0.5 archive manager */
+.archive-grid{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:10px;margin-bottom:14px}.archive-grid label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:#365d6d;font-weight:700}.archive-grid input,.archive-grid select{border:1px solid #b9ccd6;border-radius:9px;padding:9px;max-width:100%;background:white;color:#102b3f}.archive-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.archive-status{font-size:13px;color:#24586a;min-height:22px}.archive-edit{background:#eaf6f5;border:1px solid #b9d9d6;border-radius:12px;padding:16px;margin:14px 0}.archive-edit[hidden]{display:none}.archive-note{color:#526e81;font-size:13px;line-height:1.6}.archive-version{background:#edf5f6;border-radius:12px;padding:12px;margin:8px 0;font-size:13px}.archive-table button{white-space:nowrap}.archive-grid input:focus-visible,.archive-grid select:focus-visible{outline:3px solid #09a9a3} @media(max-width:760px){.archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))}} 
+</style>
 </head>
 <body>
   <header class="site-header">
@@ -264,7 +267,7 @@
         </div>
         <div><strong>紀錄白蝦養殖日常作業彙整</strong><small>SHRIMP DAILY OPERATIONS LAB</small></div>
       </div>
-      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.4.1</span></div>
+      <div class="header-meta"><span class="header-tag">TT-C-WK05</span><span class="header-tag header-tag--solid">DAILY v0.5</span></div>
     </div>
   </header>
 
@@ -273,7 +276,7 @@
 
 
     <section id="daily-operations" class="daily-section" aria-labelledby="daily-title">
-      <h2 id="daily-title" class="daily-title">白蝦養殖日常作業彙整 <span class="daily-badge">v0.4.1</span></h2>
+      <h2 id="daily-title" class="daily-title">白蝦養殖日常作業彙整 <span class="daily-badge">v0.5</span></h2>
       <p class="daily-lead">每日 16 項獨立工作｜B1、M1 白蝦池｜海水 06:00 關閉、17:30 開啟。完成狀態按日期個別保存。</p>
       <div class="daily-card">
         <div class="daily-toolbar"><label for="routine-date"><strong>作業日期</strong></label><input type="date" id="routine-date"><button type="button" class="daily-btn" id="routine-today">返回今天</button><button type="button" class="daily-btn" id="routine-export">匯出作業 CSV</button></div>
@@ -294,6 +297,30 @@
         </section>
         <section class="daily-card" aria-labelledby="measurements-list-title"><h3 id="measurements-list-title">所選日期水質紀錄</h3><div id="measurements-list" class="daily-mini">尚無紀錄</div><div class="daily-layout-note daily-note">評估僅針對已量測的水溫、pH；溶氧和鹽度須到下方原有四指標模擬器輸入，不會把歷史值自動當成即時值。</div></section>
       </div>
+
+<section class="daily-card" id="archive-management" aria-labelledby="archive-title">
+<h3 id="archive-title">歷史量測管理與修訂追溯 <span class="daily-badge">v0.5</span></h3>
+<p class="archive-note">可依日期及池別查詢 B1／M1 水溫、pH。訂正需要填寫原因，保留本版起的前後版本。此紀錄保存在目前瀏覽器，並非不可竄改的正式稽核紀錄。</p>
+<div class="archive-grid">
+<label>開始日期<input type="date" id="arc-from"></label>
+<label>結束日期<input type="date" id="arc-to"></label>
+<label>池別<select id="arc-pond"><option value="all">全部池別</option><option value="B1">B1</option><option value="M1">M1</option></select></label>
+<label>排程時間<select id="arc-slot"><option value="all">全部時段</option><option>06:30</option><option>11:00</option><option>16:00</option></select></label>
+</div>
+<div class="archive-actions"><button type="button" class="daily-btn" id="arc-search">查詢紀錄</button><button type="button" class="daily-btn" id="arc-csv">匯出修訂歷程 CSV</button><button type="button" class="daily-btn primary" id="arc-backup">下載完整 JSON 備份</button><label class="daily-btn" for="arc-restore" style="cursor:pointer">匯入 JSON 備份（預覽）</label><input id="arc-restore" type="file" accept=".json,application/json" hidden></div>
+<div id="arc-info" role="status" class="archive-status"></div>
+<div id="arc-results" class="daily-table-wrap"></div>
+<div class="archive-edit" id="arc-editor" hidden>
+<h3>訂正歷史水質紀錄</h3><p id="arc-target" class="archive-note"></p>
+<form id="arc-edit-form"><div class="daily-form-grid">
+<label class="daily-field">水溫 °C<input id="arc-temperature" type="number" min="15" max="40" step="0.1" required></label>
+<label class="daily-field">pH（11:00 不量測）<input id="arc-ph" type="number" min="5" max="10" step="0.1"></label>
+</div><label class="daily-field" style="margin:12px 0">修改原因（必填，至少 3 字）<textarea id="arc-reason" rows="2" minlength="3" maxlength="300" required placeholder="例如：原始手動輸入錯誤，重新核對紙本記錄"></textarea></label>
+<div class="archive-actions"><button class="daily-btn primary" type="submit">確認訂正並保留舊版本</button><button class="daily-btn" type="button" id="arc-cancel">取消</button></div></form></div>
+<h3 style="margin-top:18px">修訂歷程</h3><div id="arc-revisions" class="daily-table-wrap"></div>
+<p class="archive-note">為避免損毀資料，JSON 還原採「預覽後確認、整體還原」而不是默默合併。建議先下載目前備份。只有本 v0.5 開始的訂正能留下完整前後值；早期版本已覆寫的原始值無法追溯。</p>
+</section>
+
       <div class="daily-grid" id="daily-archives">
         <section class="daily-card"><h3>D｜備用池資產</h3><p><strong>X1</strong>：水鴨池　<span class="daily-badge">備用／未排每日任務</span></p><p><strong>X2</strong>：淨化池　<span class="daily-badge">備用／未排每日任務</span></p><p class="daily-note">X1／X2 不使用白蝦的水質警示標準；未收到你的具體作業排程前，不自動新增待辦。</p></section>
         <section class="daily-card" id="iot-integration"><h3>E｜IoT 設備訊號接入（預留） <span class="daily-badge">尚未連線</span></h3>
@@ -885,9 +912,65 @@
       el('iot-export').addEventListener('click',()=>{const rows=[['deviceId','pondId','parameter','value','unit','timestamp','receivedAt','source'],...signalLog.map(r=>[r.deviceId,r.pondId,r.parameter,r.value,r.unit,r.timestamp,r.receivedAt,r.source])];csv(rows,'shrimp-iot-test-signals.csv');});
       paintSignals();
       window.ShrimpIoTBridge=Object.freeze({validateAndStoreTestSignal:ingestSignal,storageKey:K_IOT,connected:false,note:'未實際連線，僅限可信測試輸入；正式設備須透過具驗證的後端閘道。'});
-      window.ShrimpDailyOperations=Object.freeze({tasks:TASKS.map(x=>[...x]),storageKeys:[K_TASK,K_MEAS,K_IOT],version:'0.4.1'});
+      window.ShrimpDailyOperations=Object.freeze({tasks:TASKS.map(x=>[...x]),storageKeys:[K_TASK,K_MEAS,K_IOT],version:'0.5'});
     })();
 
   </script>
+
+<script>
+/* v0.5 additional history manager. All writes use existing v0.4.1 measurement storage key. */
+(() => {
+'use strict';
+const KEY_M='tt_wk05_pond_measure_v04';
+const KEY_A='tt_wk05_measure_audit_v05';
+const KEY_T='tt_wk05_daily_tasks_v041';
+const KEY_I='tt_wk05_iot_signals_v041';
+const KEY_H='tt_wk05_shrimp_history_v1';
+const $=id=>document.getElementById(id);
+const iso=()=>new Date().toISOString();
+const read=(key,fallback)=>{try{const raw=localStorage.getItem(key);return raw===null?fallback:JSON.parse(raw)}catch{return fallback}};
+const validDay=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(Date.parse(s+'T12:00:00Z'));
+const validRecord=r=>r&&typeof r==='object'&&['B1','M1'].includes(r.pond)&&['06:30','11:00','16:00'].includes(r.slot)&&Number.isFinite(r.temperature)&&r.temperature>=15&&r.temperature<=40&&Number(r.temperature.toFixed(1))===r.temperature&&(r.slot==='11:00'?r.ph===null:Number.isFinite(r.ph)&&r.ph>=5&&r.ph<=10&&Number(r.ph.toFixed(1))===r.ph);
+const cleanMeasurementStore=o=>{if(!o||typeof o!=='object'||Array.isArray(o))throw Error('量測資料結構錯誤');let out={};for(const [day,items] of Object.entries(o)){if(!validDay(day)||!Array.isArray(items))throw Error('日期或量測陣列不正確');let seen=new Set();out[day]=items.map(r=>{if(!validRecord(r))throw Error('發現無效量測值');let k=r.pond+'|'+r.slot;if(seen.has(k))throw Error('同日池別與時段重複');seen.add(k);return {pond:r.pond,slot:r.slot,temperature:r.temperature,ph:r.ph,savedAt:typeof r.savedAt==='string'?r.savedAt:iso()}})}return out;};
+let measure=read(KEY_M,{}), audits=read(KEY_A,{});
+if(!measure||typeof measure!=='object'||Array.isArray(measure))measure={};
+if(!audits||typeof audits!=='object'||Array.isArray(audits))audits={};
+let selected=null;
+const recordKey=(d,p,s)=>`${d}|${p}|${s}`;
+function message(t){$('arc-info').textContent=t;}
+function save(key,val){try{localStorage.setItem(key,JSON.stringify(val));return true}catch(e){message('儲存失敗：'+e.message+'。請立即匯出備份，勿關閉頁面。');return false}}
+function download(name,data,type='application/json;charset=utf-8'){const url=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function csv(rows){let c=v=>{let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};return '\ufeff'+rows.map(r=>r.map(c).join(',')).join('\r\n')}
+function textCell(tr,val){const td=document.createElement('td');td.textContent=String(val??'');tr.append(td);return td}
+function tableFor(headers){const t=document.createElement('table');t.className='daily-table archive-table';const h=t.createTHead().insertRow();headers.forEach(x=>{let th=document.createElement('th');th.textContent=x;h.append(th)});return t}
+function entries(){let rows=[];for(const [day,arr] of Object.entries(measure)) if(validDay(day)&&Array.isArray(arr))for(const r of arr)if(validRecord(r))rows.push({day,...r});return rows.sort((a,b)=>(b.day+' '+b.slot).localeCompare(a.day+' '+a.slot)||a.pond.localeCompare(b.pond))}
+function selectRecord(day,p,s){return (measure[day]||[]).find(r=>r.pond===p&&r.slot===s)}
+function refresh(){measure=read(KEY_M,{});audits=read(KEY_A,{});if(!measure||typeof measure!=='object')measure={};if(!audits||typeof audits!=='object')audits={};const from=$('arc-from').value,to=$('arc-to').value,pond=$('arc-pond').value,slot=$('arc-slot').value;let rows=entries().filter(r=>(!from||r.day>=from)&&(!to||r.day<=to)&&(pond==='all'||r.pond===pond)&&(slot==='all'||r.slot===slot));const root=$('arc-results');root.replaceChildren();if(rows.length===0){root.textContent='查無符合條件的量測紀錄。';}else{let t=tableFor(['日期','時段','池別','水溫 °C','pH','版本','操作']);let body=t.createTBody();for(const r of rows){const tr=body.insertRow();let k=recordKey(r.day,r.pond,r.slot),count=(audits[k]||[]).length;[r.day,r.slot,r.pond,r.temperature.toFixed(1),r.ph===null?'未量測':r.ph.toFixed(1),'v'+(count+1)].forEach(x=>textCell(tr,x));let td=tr.insertCell(),b=document.createElement('button');b.className='daily-btn';b.textContent='編輯／訂正';b.addEventListener('click',()=>openEditor(r.day,r.pond,r.slot));td.append(b)}root.append(t)}
+let rev=[];for(const [key,items] of Object.entries(audits))if(Array.isArray(items))for(const a of items){if(!a||!a.at)continue;let [d,pondId,slotId]=key.split('|');if((!from||d>=from)&&(!to||d<=to)&&(pond==='all'||pondId===pond)&&(slot==='all'||slotId===slot))rev.push({day:d,pond:pondId,slot:slotId,...a})}rev.sort((a,b)=>b.at.localeCompare(a.at));let out=$('arc-revisions');out.replaceChildren();if(!rev.length){out.textContent='目前沒有修訂歷程；既有量測值視為初始版本。';}else{let t=tableFor(['訂正時間','量測日期','池別／時段','訂正前','訂正後','原因']);for(let a of rev){let tr=t.createTBody().insertRow();[a.at.replace('T',' ').slice(0,19),a.day,a.pond+' '+a.slot,`${a.before.temperature}°C／${a.before.ph??'未量測'}`,`${a.after.temperature}°C／${a.after.ph??'未量測'}`,a.reason].forEach(v=>textCell(tr,v))}out.append(t)}message(`找到 ${rows.length} 筆量測紀錄，${rev.length} 次修訂。`)}
+function openEditor(day,pond,slot){const r=selectRecord(day,pond,slot);if(!r)return message('找不到這筆紀錄，請重新查詢。');selected={day,pond,slot};$('arc-target').textContent=`${day}｜${pond}｜${slot}（僅訂正已有紀錄，不改日期與池別）`;$('arc-temperature').value=r.temperature;$('arc-ph').value=r.ph===null?'':r.ph;$('arc-ph').disabled=slot==='11:00';$('arc-ph').required=slot!=='11:00';$('arc-reason').value='';$('arc-editor').hidden=false;$('arc-editor').scrollIntoView({block:'nearest',behavior:'smooth'})}
+$('arc-cancel').addEventListener('click',()=>{$('arc-editor').hidden=true;selected=null});
+$('arc-edit-form').addEventListener('submit',e=>{e.preventDefault();if(!selected)return;const {day,pond,slot}=selected;let before=selectRecord(day,pond,slot);if(!before)return message('紀錄已變更，請重新載入');let rawT=$('arc-temperature').value.trim(),rawP=$('arc-ph').value.trim(),reason=$('arc-reason').value.trim();let temperature=Number(rawT),ph=slot==='11:00'?null:Number(rawP);const after={...before,temperature,ph,savedAt:iso()};if(!rawT||(slot!=='11:00'&&!rawP)||!validRecord(after)){message('數值不合法：請檢查精度、範圍及必填欄位。');return}if(reason.length<3){message('請填寫至少 3 字的修改原因。');return}if(before.temperature===temperature&&before.ph===ph){message('新舊數值相同，無需修訂。');return}
+const k=recordKey(day,pond,slot),entry={at:iso(),before:{temperature:before.temperature,ph:before.ph,savedAt:before.savedAt||null},after:{temperature,ph,savedAt:after.savedAt},reason};const newAudits={...audits,[k]:[...(audits[k]||[]),entry]};let next=structuredClone(measure);next[day]=next[day].map(r=>r.pond===pond&&r.slot===slot?after:r);
+// Store audit first; if data write fails revert audit best-effort, and retain in-memory state for backup.
+if(!save(KEY_A,newAudits))return;
+if(!save(KEY_M,next)){save(KEY_A,audits);message('量測儲存失敗，已嘗試恢復修訂歷程。請先備份。');return}
+measure=next;audits=newAudits;$('arc-editor').hidden=true;selected=null;refresh();message(`${day} ${pond} ${slot} 已訂正，原始值與原因已保留。其他頁籤若已開啟請重新整理。`);
+});
+// Intercept existing v0.4.1 form to preserve an audit record for same-slot overwrite.
+$('measure-form').addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();let day=$('routine-date').value,pond=$('measure-pond').value,slot=$('measure-slot').value,rawT=$('measure-temp').value.trim(),rawP=$('measure-ph').value.trim(),temperature=Number(rawT),ph=slot==='11:00'?null:Number(rawP);let nextRecord={pond,slot,temperature,ph,savedAt:iso()};if(!validDay(day)||!rawT||(slot!=='11:00'&&!rawP)||!validRecord(nextRecord)){$('measure-message').textContent='資料無效，請檢查必填值、範圍與小數精度。';return}
+measure=read(KEY_M,{});audits=read(KEY_A,{});const previous=selectRecord(day,pond,slot);
+if(previous){if(previous.temperature===temperature&&previous.ph===ph){$('measure-message').textContent='資料與現存紀錄相同，未覆寫。';return} $('measure-message').textContent='同日期、池別與時段已存在紀錄。請使用下方「歷史量測管理」編輯，填寫修訂原因以保留原始值。';$('arc-from').value=day;$('arc-to').value=day;$('arc-pond').value=pond;$('arc-slot').value=slot;refresh();openEditor(day,pond,slot);return}
+let next=structuredClone(measure);next[day]=[...(next[day]||[]),nextRecord];if(!save(KEY_M,next))return;measure=next;refresh();$('measure-message').textContent=`${day} ${pond} ${slot} 已新增量測。請注意每日作業勾選需手動確認。`;
+// Existing v0.4.1 listing's renderer reads its own closed-over cache, so rebuild it from storage for immediate presentation.
+const root=$('measurements-list');root.replaceChildren();const t=tableFor(['時段','池別','水溫','pH','資料狀態']);for(const r of (next[day]||[]).sort((a,b)=>a.slot.localeCompare(b.slot)||a.pond.localeCompare(b.pond))){let tr=t.createTBody().insertRow();[r.slot,r.pond,r.temperature.toFixed(1)+'°C',r.ph===null?'未量測':r.ph.toFixed(1),'已記錄（部分指標）'].forEach(x=>textCell(tr,x))}root.append(t);
+},true);
+$('arc-search').addEventListener('click',refresh);
+$('routine-date').addEventListener('change',refresh);
+$('arc-csv').addEventListener('click',()=>{let rows=[['量測日期','池別','時段','訂正時間','原始水溫','原始pH','訂正水溫','訂正pH','修改原因']];for(const [key,items] of Object.entries(audits)){const [day,pond,slot]=key.split('|');if(!Array.isArray(items))continue;for(const a of items)rows.push([day,pond,slot,a.at,a.before.temperature,a.before.ph??'',a.after.temperature,a.after.ph??'',a.reason])}download('shrimp-measure-revisions.csv',csv(rows),'text/csv;charset=utf-8')});
+$('arc-backup').addEventListener('click',()=>{const payload={schema:'TT-C-WK05-v0.5-backup',exportedAt:iso(),records:{tasks:read(KEY_T,{}),measurements:read(KEY_M,{}),audits:read(KEY_A,{}),iotSignals:read(KEY_I,[]),assessments:read(KEY_H,[])}};download('shrimp-full-backup-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(payload,null,2));message('已建立包含日常、量測、修訂、IoT 測試及四指標評估的 JSON 備份。')});
+$('arc-restore').addEventListener('change',async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>5_000_000){message('拒絕大於 5MB 的備份檔案');return}try{const payload=JSON.parse(await f.text());if(payload.schema!=='TT-C-WK05-v0.5-backup'||!payload.records)throw Error('不是相容的 v0.5 備份');const d=payload.records;const checked=cleanMeasurementStore(d.measurements);if(!d.tasks||typeof d.tasks!=='object'||Array.isArray(d.tasks))throw Error('作業資料格式不正確');for(const [day,vals] of Object.entries(d.tasks)){if(!validDay(day)||!Array.isArray(vals)||vals.some(x=>!Number.isInteger(x)||x<0||x>15))throw Error('作業完成資料異常')};if(!d.audits||typeof d.audits!=='object'||Array.isArray(d.audits))throw Error('修訂歷程格式不正確');for(const [k,arr] of Object.entries(d.audits)){if(!/^\d{4}-\d{2}-\d{2}\|(B1|M1)\|(06:30|11:00|16:00)$/.test(k)||!Array.isArray(arr)||arr.some(a=>!a||!a.at||typeof a.reason!=='string'||!a.before||!a.after))throw Error('修訂紀錄異常')};if(!Array.isArray(d.iotSignals)||!Array.isArray(d.assessments))throw Error('其他紀錄格式不正確');const n=Object.values(checked).reduce((v,a)=>v+a.length,0);const rev=Object.values(d.audits).reduce((v,a)=>v+a.length,0);const ok=confirm(`備份預覽：${n} 筆量測、${rev} 次訂正、${Object.keys(d.tasks).length} 天作業紀錄、${d.iotSignals.length} 筆 IoT 訊號。\n確認後將「整體覆蓋」本瀏覽器的相應資料，且不可復原。建議先下載目前備份。是否確認？`);if(!ok){message('已取消還原，沒有寫入任何資料');return}const pairs=[[KEY_T,d.tasks],[KEY_M,checked],[KEY_A,d.audits],[KEY_I,d.iotSignals],[KEY_H,d.assessments]];const previous=pairs.map(([k])=>[k,localStorage.getItem(k)]);try{for(const [k,v] of pairs)localStorage.setItem(k,JSON.stringify(v))}catch(err){for(const [k,v] of previous){try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}}throw Error('寫入失敗，已嘗試回復原資料：'+err.message)}message('還原完成，頁面將重新整理以同步所有模組。');location.reload();}catch(err){message('還原失敗：'+err.message)}});
+refresh();
+})();
+</script>
 </body>
 </html>
